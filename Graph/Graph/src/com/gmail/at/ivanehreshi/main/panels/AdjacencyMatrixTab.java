@@ -60,6 +60,12 @@ public class AdjacencyMatrixTab extends JPanel implements QueuedUpdatable{
 		// TODO Auto-generated method stub
 		initTable();
 	}
+
+	@Override
+	public void queryUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

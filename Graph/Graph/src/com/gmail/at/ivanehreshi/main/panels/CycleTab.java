@@ -73,6 +73,12 @@ public class CycleTab extends JPanel implements QueuedUpdatable{
 		// TODO Auto-generated method stub
 		updateInfo();
 	}
+
+	@Override
+	public void queryUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

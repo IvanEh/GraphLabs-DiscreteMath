@@ -64,7 +64,17 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		for(int i = 0; i < getTabCount(); i++){
 			Component c = getComponentAt(i);
 			if(c instanceof QueuedUpdatable){
-				((QueuedUpdatable) c).updateIfNeeded();;
+				
+				if(c instanceof DistanceMatrixPanel){
+					((DistanceMatrixPanel) c).queryUpdate();
+					if(i == getSelectedIndex())
+						((DistanceMatrixPanel) c).updateIfNeeded();
+				}else
+				{
+					((QueuedUpdatable) c).updateIfNeeded();
+				}
+			
+				
 			}
 		}
 	}

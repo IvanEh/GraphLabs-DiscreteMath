@@ -123,4 +123,10 @@ public class AdditionalInformation extends JPanel  implements Observer, QueuedUp
 	public void updateIfNeeded() {
 		updateLabels();
 	}
+
+	@Override
+	public void queryUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

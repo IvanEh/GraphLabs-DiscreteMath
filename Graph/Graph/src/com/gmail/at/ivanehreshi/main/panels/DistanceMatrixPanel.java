@@ -83,10 +83,11 @@ public class DistanceMatrixPanel extends JPanel implements Observer, QueuedUpdat
 
 	@Override
 	public void updateIfNeeded() {
-		// TODO Auto-generated method stub
-		needToUpdate = true;
-		forceUpdateIfNeeded();
-	
+		if(needToUpdate){
+			needToUpdate = false;
+			distanceModel.updateAll();
+			initTable();
+		}
 	}
 	
 	public void forceUpdateIfNeeded() {
@@ -95,6 +96,12 @@ public class DistanceMatrixPanel extends JPanel implements Observer, QueuedUpdat
 			distanceModel.updateAll();
 			initTable();
 		}
+	}
+
+
+	@Override
+	public void queryUpdate() {
+		needToUpdate = true;
 	}
 	
 	

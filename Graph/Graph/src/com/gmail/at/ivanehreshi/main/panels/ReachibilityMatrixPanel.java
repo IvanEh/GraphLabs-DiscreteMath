@@ -45,4 +45,10 @@ public class ReachibilityMatrixPanel extends JPanel implements QueuedUpdatable {
 		initTable();
 	}
 
+	@Override
+	public void queryUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
