@@ -20,6 +20,8 @@ public class ReachibilityMatrixPanel extends JPanel implements QueuedUpdatable {
 
 	private GraphicUIApp app;
 	
+	private boolean needToUpdate = true;
+	
 	public ReachibilityMatrixPanel(GraphicUIApp app, DistanceModel d) {
 		
 		this.app = app;
@@ -42,13 +44,17 @@ public class ReachibilityMatrixPanel extends JPanel implements QueuedUpdatable {
 	@Override
 	public void updateIfNeeded() {
 		// TODO Auto-generated method stub
-		initTable();
+		if(needToUpdate)
+		{
+			initTable();
+			needToUpdate = false;
+		}
 	}
 
 	@Override
 	public void queryUpdate() {
 		// TODO Auto-generated method stub
-		
+		needToUpdate = true;
 	}
 
 }

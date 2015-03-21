@@ -89,14 +89,6 @@ public class DistanceMatrixPanel extends JPanel implements Observer, QueuedUpdat
 			initTable();
 		}
 	}
-	
-	public void forceUpdateIfNeeded() {
-		if(needToUpdate){
-			needToUpdate = false;
-			distanceModel.updateAll();
-			initTable();
-		}
-	}
 
 
 	@Override

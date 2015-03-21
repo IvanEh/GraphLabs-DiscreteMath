@@ -106,6 +106,8 @@ public class AdditionalInformation extends JPanel  implements Observer, QueuedUp
 		verticesCountLabel.setVisible(true);
 	}
 
+	
+	@Deprecated
 	@Override
 	public void update(Observable o, Object e) {
 		OrientedGraph g;
@@ -121,12 +123,17 @@ public class AdditionalInformation extends JPanel  implements Observer, QueuedUp
 
 	@Override
 	public void updateIfNeeded() {
-		updateLabels();
+		// TODO Auto-generated method stub
+		if(needToUpdate)
+		{
+			updateLabels();
+			needToUpdate = false;
+		}
 	}
 
 	@Override
 	public void queryUpdate() {
 		// TODO Auto-generated method stub
-		
+		needToUpdate = true;
 	}
 }

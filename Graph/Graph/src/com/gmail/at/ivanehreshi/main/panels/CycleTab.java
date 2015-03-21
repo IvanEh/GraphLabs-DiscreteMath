@@ -24,6 +24,9 @@ public class CycleTab extends JPanel implements QueuedUpdatable{
 	
 	private SpringLayout layout = new SpringLayout();
 	private GraphicUIApp app;
+
+
+	private boolean needToUpdate = true;
 	
 	public CycleTab(GraphicUIApp app){
 		this.app = app;
@@ -71,13 +74,17 @@ public class CycleTab extends JPanel implements QueuedUpdatable{
 	@Override
 	public void updateIfNeeded() {
 		// TODO Auto-generated method stub
-		updateInfo();
+		if(needToUpdate )
+		{
+			updateInfo();
+			needToUpdate = false;
+		}
 	}
 
 	@Override
 	public void queryUpdate() {
 		// TODO Auto-generated method stub
-		
+		needToUpdate = true;
 	}
 	
 	

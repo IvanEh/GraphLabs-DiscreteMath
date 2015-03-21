@@ -16,6 +16,7 @@ public class AdjacencyMatrixTab extends JPanel implements QueuedUpdatable{
 	Integer[][] cellValue;
 	JScrollPane scrollPane = new JScrollPane();
 	private GraphicUIApp app;
+	private boolean needToUpdate = true;
 	
 	public AdjacencyMatrixTab(GraphicUIApp app){
 		this.app = app;
@@ -58,13 +59,17 @@ public class AdjacencyMatrixTab extends JPanel implements QueuedUpdatable{
 	@Override
 	public void updateIfNeeded() {
 		// TODO Auto-generated method stub
-		initTable();
+		if(needToUpdate )
+		{
+			initTable();
+			needToUpdate = false;
+		}
 	}
 
 	@Override
 	public void queryUpdate() {
 		// TODO Auto-generated method stub
-		
+		needToUpdate = true;
 	}
 	
 	
