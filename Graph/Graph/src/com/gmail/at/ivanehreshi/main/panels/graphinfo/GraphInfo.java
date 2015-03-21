@@ -1,4 +1,4 @@
-package com.gmail.at.ivanehreshi.main.panels;
+package com.gmail.at.ivanehreshi.main.panels.graphinfo;
 
 import java.awt.Component;
 import java.awt.Frame;
@@ -16,6 +16,7 @@ import javax.swing.event.ChangeListener;
 import com.gmail.at.ivanehreshi.graph.OrientedGraph;
 import com.gmail.at.ivanehreshi.interfaces.QueuedUpdatable;
 import com.gmail.at.ivanehreshi.main.GraphicUIApp;
+import com.gmail.at.ivanehreshi.main.panels.DistanceModel;
 
 public class GraphInfo extends JTabbedPane implements Observer {
 	

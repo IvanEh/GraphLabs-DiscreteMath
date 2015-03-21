@@ -19,9 +19,9 @@ import com.gmail.at.ivanehreshi.graph.GraphEvent.EventType;
 import com.gmail.at.ivanehreshi.graph.OrientedGraph;
 import com.gmail.at.ivanehreshi.listeners.FromFileAction;
 import com.gmail.at.ivanehreshi.listeners.InputGraphAction;
-import com.gmail.at.ivanehreshi.main.panels.GraphInfo;
 import com.gmail.at.ivanehreshi.main.panels.GraphViewer;
 import com.gmail.at.ivanehreshi.main.panels.VertexUI;
+import com.gmail.at.ivanehreshi.main.panels.graphinfo.GraphInfo;
 
 public class GraphicUIApp extends JFrame implements Observer{
 	public OrientedGraph graph;

@@ -7,9 +7,9 @@ import com.gmail.at.ivanehreshi.interfaces.QueuedUpdatable;
 import com.gmail.at.ivanehreshi.main.GraphicUIApp;
 
 public class DistanceModel {
-	Integer[][] rowDataForDistance;
-	Integer[][] rowDataForReachibility;
-	String[] columnNames;
+	public Integer[][] rowDataForDistance;
+	public Integer[][] rowDataForReachibility;
+	public String[] columnNames;
 	public GraphicUIApp app;
 	boolean needToChange = false;
 	

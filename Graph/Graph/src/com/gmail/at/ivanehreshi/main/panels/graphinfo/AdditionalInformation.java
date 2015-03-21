@@ -1,4 +1,4 @@
-package com.gmail.at.ivanehreshi.main.panels;
+package com.gmail.at.ivanehreshi.main.panels.graphinfo;
 
 import java.util.Observable;
 import java.util.Observer;

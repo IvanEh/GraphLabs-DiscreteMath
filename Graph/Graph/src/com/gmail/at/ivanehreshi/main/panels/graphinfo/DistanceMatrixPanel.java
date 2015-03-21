@@ -1,4 +1,4 @@
-package com.gmail.at.ivanehreshi.main.panels;
+package com.gmail.at.ivanehreshi.main.panels.graphinfo;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -24,6 +24,7 @@ import com.gmail.at.ivanehreshi.graph.GraphEvent;
 import com.gmail.at.ivanehreshi.graph.OrientedGraph;
 import com.gmail.at.ivanehreshi.interfaces.QueuedUpdatable;
 import com.gmail.at.ivanehreshi.main.GraphicUIApp;
+import com.gmail.at.ivanehreshi.main.panels.DistanceModel;
 
 public class DistanceMatrixPanel extends JPanel implements Observer, QueuedUpdatable{
 

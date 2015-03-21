@@ -1,4 +1,4 @@
-package com.gmail.at.ivanehreshi.main.panels;
+package com.gmail.at.ivanehreshi.main.panels.graphinfo;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

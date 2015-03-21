@@ -28,7 +28,7 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 	private int verticesCount = 0; 
 	
 	GraphicUIApp app;
-	ArrayList<VertexUI> verticesUI = new ArrayList<VertexUI>();
+	public ArrayList<VertexUI> verticesUI = new ArrayList<VertexUI>();
 
 	private boolean needToUpdate = true; 
 	
