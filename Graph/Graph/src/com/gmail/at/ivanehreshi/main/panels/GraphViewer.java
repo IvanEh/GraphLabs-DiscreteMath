@@ -32,6 +32,8 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 
 	private boolean needToUpdate = true; 
 	
+	public long lastTimeStamp = 0;
+	
 	public  GraphViewer(GraphicUIApp app) {
 		super();
 		
@@ -159,6 +161,14 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 
 	
 	private void paintConnections(Graphics2D g){
+		
+		long delta ;	
+		if(lastTimeStamp == 0)
+			delta = 0;
+		else
+			delta = System.currentTimeMillis() - lastTimeStamp;
+		lastTimeStamp = System.currentTimeMillis();
+		
 		for(int i = 0; i < verticesUI.size(); i++)
 		{
 			VertexUI vertex = verticesUI.get(i);
@@ -216,6 +226,8 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 			}
 			
 		}
+		
+		
 	}
 	
 	  private void drawArrowLine(Graphics g, int x1, int y1, int x2, int y2, int d, int h){
