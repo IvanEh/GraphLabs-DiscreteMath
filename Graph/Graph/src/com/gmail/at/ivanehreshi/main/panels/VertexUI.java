@@ -26,6 +26,10 @@ public class VertexUI extends JPanel{
 	private int vertex;
 	private OrientedGraph graph;
 	
+	public Color mainColor = Color.BLUE;
+	// public Color hoverColor = Color.RED;
+	
+	
 	public  VertexUI(String caption) {
 		super();
 		this.caption = caption;
@@ -77,7 +81,7 @@ public class VertexUI extends JPanel{
 		}
 		
 		
-		g2d.setColor(Color.RED);
+		g2d.setColor(mainColor);
 		
 		g2d.drawOval(0, 0, getWidth()-thikness, getHeight()-thikness);
 	
