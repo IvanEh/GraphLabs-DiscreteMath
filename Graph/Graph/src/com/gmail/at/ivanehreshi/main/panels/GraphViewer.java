@@ -237,8 +237,7 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 			if (o instanceof GraphicObject) {
 				GraphicObject GO = (GraphicObject) o;
 				
-				GO.paintComponents(g);
-				
+				GO.paintComponents(g);		
 			}
 		}
 		
