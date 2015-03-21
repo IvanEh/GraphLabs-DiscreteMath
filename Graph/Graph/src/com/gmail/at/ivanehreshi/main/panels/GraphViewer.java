@@ -22,6 +22,8 @@ import javax.swing.JPanel;
 import com.gmail.at.ivanehreshi.graph.GraphEvent;
 import com.gmail.at.ivanehreshi.graph.GraphEvent.EventType;
 import com.gmail.at.ivanehreshi.graph.OrientedGraph;
+import com.gmail.at.ivanehreshi.interfaces.GraphicManipulator;
+import com.gmail.at.ivanehreshi.interfaces.GraphicObject;
 import com.gmail.at.ivanehreshi.main.GraphicUIApp;
 
 public class GraphViewer extends JPanel implements LayoutManager, Observer{
@@ -33,6 +35,9 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 	private boolean needToUpdate = true; 
 	
 	public long lastTimeStamp = 0;
+	
+	public ArrayList<GraphicManipulator> graphicManipulators =
+			new ArrayList<GraphicManipulator>();
 	
 	public  GraphViewer(GraphicUIApp app) {
 		super();
@@ -227,6 +232,15 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 			
 		}
 		
+		for(GraphicManipulator o: graphicManipulators){
+			o.update(delta);
+			if (o instanceof GraphicObject) {
+				GraphicObject GO = (GraphicObject) o;
+				
+				GO.paintComponents(g);
+				
+			}
+		}
 		
 	}
 	
@@ -249,6 +263,8 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 
 	        g.drawLine(x1, y1, x2, y2);
 	        g.fillPolygon(xpoints, ypoints, 3);
+	        
+	        
 	  }
 
 	@Override
