@@ -37,7 +37,7 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		addTab("Матриця суміжності", new AdjacencyMatrixTab(app));
 		addTab("Цикли",new  CycleTab(app));
 		addTab("Додаткова інформація",new  AdditionalInformation(app));
-		
+		addTab("Пошук в глибину", new DFSPanel(app));
 		
 		addChangeListener(new ChangeListener() {
 			

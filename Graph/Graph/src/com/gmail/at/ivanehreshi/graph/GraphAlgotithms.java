@@ -1,11 +1,9 @@
 package com.gmail.at.ivanehreshi.graph;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.WeakHashMap;
+import java.util.Stack;
 
 import com.gmail.at.ivanehreshi.utility.Pair;
 
@@ -94,11 +92,7 @@ public class GraphAlgotithms {
 	}
 	
 	public static class StronglyConnectedComponentsFinder{
-		enum DFSColors {
-			WHITE,
-			GREY,
-			BLACK
-		}
+	
 		
 		OrientedGraph g;
 		private ArrayList<ArrayList<Integer>> adj;
@@ -265,6 +259,75 @@ public class GraphAlgotithms {
 		public Integer pred = null;
 		public int discovery = 0;
 		public int finishing = 0;
+	}
+	
+	enum DFSColors {
+		WHITE,
+		GREY,
+		BLACK
+	}
+	
+	public static class DFSValueComputer {
+		OrientedGraph g;
+		public DFSValue[] dfs;
+		private DFSColors colors[];
+		private int time = 0;
+		
+		private void init(){
+			colors = new DFSColors[g.verticesCount];
+			for(int i = 0; i < g.verticesCount; i++)
+				colors[i] = DFSColors.WHITE;
+			
+			dfs = new DFSValue[g.verticesCount];
+			for(int i = 0; i < g.verticesCount; i++){
+				dfs[i] = new DFSValue();
+			}
+		}
+
+		public DFSValueComputer(OrientedGraph g){
+				this.g = g;
+				
+				init();
+		}
+	
+		public void computeAndSaveStack(ArrayList<String> stackFingerPrint, int v)
+		{
+			StringBuilder fingerPrint = new StringBuilder("");
+			Stack<Integer> stack = new Stack<Integer>();
+			
+			stack.push(v);
+			time++;
+			dfs[v].discovery = time;
+			colors[v] = DFSColors.GREY;
+			stackFingerPrint.add("["+String.valueOf(v) + "]");
+			
+			while(!stack.isEmpty()){
+				int vert =  stack.lastElement();
+				
+				int count = 0;
+				for(int u: g.adjacencyList.get(vert)){
+					if(colors[u] == DFSColors.WHITE){
+						stack.push(u);
+						time++;
+						count++;
+						
+						colors[u] = DFSColors.GREY;
+						dfs[u].discovery = time;
+						
+						stackFingerPrint.add(stack.toString());
+					}
+				}
+				if(count == 0){
+					time++;
+					int finv = stack.pop();
+					colors[finv] = DFSColors.BLACK;
+					dfs[finv].finishing = time;
+					stackFingerPrint.add(stack.toString());
+				}
+			}
+		
+		}
+		
 	}
 	
 }

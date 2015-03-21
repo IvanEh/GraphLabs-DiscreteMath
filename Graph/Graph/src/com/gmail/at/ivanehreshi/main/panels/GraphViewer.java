@@ -233,6 +233,8 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 		}
 		
 		for(GraphicManipulator o: graphicManipulators){
+			if(o == null)
+				continue;
 			o.update(delta);
 			if (o instanceof GraphicObject) {
 				GraphicObject GO = (GraphicObject) o;

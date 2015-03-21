@@ -84,8 +84,9 @@ public class GraphicUIApp extends JFrame implements Observer{
 	public static void main(String[] arg){
 		
 		OrientedGraph graph = new OrientedGraph(6);
-//		graph.connect(5, 6);
-//		graph.connect(6, 5);
+		graph.connect(4, 5);
+		graph.connect(5, 4);
+		graph.connect(0, 4);
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			
