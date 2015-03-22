@@ -305,7 +305,7 @@ public class GraphAlgotithms {
 			dfs[v].discovery = time;
 			colors[v] = DFSColors.GREY;
 			
-			stackFingerPrint.add(new String[]{"["+String.valueOf(v) + "]"});
+			stackFingerPrint.add(new String[]{"["+String.valueOf(v+deltaUser) + "]"});
 			orderedVertices.set(time, v);
 			
 			while(!stack.isEmpty()){

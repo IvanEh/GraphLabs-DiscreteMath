@@ -1,6 +1,7 @@
 package com.gmail.at.ivanehreshi.main.panels.graphinfo;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.Observer;
@@ -32,13 +33,11 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 		
 		setLayout(new FlowLayout());
 		
-		initTable();
+		init();
 	
-		dfsVisualization = new DFSVisualization(null, null);
-		app.graphViewer.graphicManipulators.add(dfsVisualization);
 	}
 	
-	private void initTable() {
+	private void init() {
 		removeAll();
 		
 		ArrayList<ArrayList<String>> data;
@@ -60,6 +59,11 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 		table.setFillsViewportHeight(true);
 		add(scrollPane);
 		
+		if (app.graphViewer.graphicManipulators.contains(dfsVisualization))
+			app.graphViewer.graphicManipulators.remove(dfsVisualization);
+		
+		dfsVisualization = new DFSVisualization(null, null);
+		app.graphViewer.graphicManipulators.add(dfsVisualization);
 	}
 
 	public class DFSVisualization implements GraphicManipulator{
@@ -80,6 +84,22 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 		@Override
 		public void update(long deltaTime) {
 			System.out.println(deltaTime);
+			Container parent = getParent();
+			
+			if (parent instanceof GraphInfo) {
+				GraphInfo ginfo = (GraphInfo) parent;
+				if(! (ginfo.getSelectedComponent() instanceof DFSPanel) 
+						|| ((DFSPanel)ginfo.getSelectedComponent()) != DFSPanel.this){
+					
+						if(pointerToLast != null){
+							int u = dfs.orderedVertices.get(pointerToLast);
+							 app.graphViewer.verticesUI.get(u).hover = false;
+							 app.graphViewer.verticesUI.get(u).mainColor = lastColor;
+						}
+						return;
+				}
+			}
+			
 			currentFrameTime+=deltaTime;
 			if(currentFrameTime > frameTime){
 				currentFrameTime = 0;
@@ -119,13 +139,16 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 	@Override
 	public void queryUpdate() {
 		// TODO Auto-generated method stub
-		
+		needToUpdate = true;
 	}
 
 	@Override
 	public void updateIfNeeded() {
 		// TODO Auto-generated method stub
-		
+		if(needToUpdate){
+			needToUpdate = false;
+			init();
+		}
 	}
 	
 }
