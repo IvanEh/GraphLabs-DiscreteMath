@@ -22,6 +22,9 @@ public class GraphInfo extends JTabbedPane implements Observer {
 	
 	GraphicUIApp app;
 	DistanceMatrixPanel distanceMatrixPanel;
+	java.util.Observable observable;
+	private CycleTab cycleTab;
+	int lastActiveTab;
 	
 	public GraphInfo(OrientedGraph g, GraphicUIApp app){
 		super();
@@ -30,14 +33,18 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		
 		DistanceModel distanceModel = new DistanceModel(app);
 		
+		
 		distanceMatrixPanel = new DistanceMatrixPanel(app, distanceModel);
+		cycleTab = new  CycleTab(app);
 		
 		addTab("Матриця відстаней", distanceMatrixPanel);
 		addTab("Матриця досяжності", new ReachibilityMatrixPanel(app, distanceModel));
 		addTab("Матриця суміжності", new AdjacencyMatrixTab(app));
-		addTab("Цикли",new  CycleTab(app));
+		addTab("Цикли", cycleTab);
 		addTab("Додаткова інформація",new  AdditionalInformation(app));
 		addTab("Пошук в глибину", new DFSPanel(app));
+		
+		lastActiveTab = 0;
 		
 		addChangeListener(new ChangeListener() {
 			
@@ -50,8 +57,19 @@ public class GraphInfo extends JTabbedPane implements Observer {
 				Object c =  source.getComponentAt(index);
 				
 				
-				if(c instanceof QueuedUpdatable)
+				if(c instanceof QueuedUpdatable){
 					((QueuedUpdatable)c).updateIfNeeded();
+				}
+				
+				if (source.getComponentAt(lastActiveTab) instanceof GraphInfoTab) {
+					((GraphInfoTab)source.getComponentAt(lastActiveTab)).onDeactivated();
+				}
+				
+				if(source.getComponentAt(index) instanceof GraphInfoTab){
+					((GraphInfoTab)source.getComponentAt(index)).onActivated();
+				}
+			
+				lastActiveTab = index;
 			}
 		});
 		
@@ -74,5 +92,10 @@ public class GraphInfo extends JTabbedPane implements Observer {
 				
 			}
 		}
+	}
+	
+	static interface GraphInfoTab {
+		public void onActivated();
+		public void onDeactivated();
 	}
 }

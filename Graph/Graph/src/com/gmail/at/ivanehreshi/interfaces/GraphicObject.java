@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 public abstract class GraphicObject extends JPanel implements GraphicManipulator{ 
 	
-	public abstract void update(double deltaTime);
+	public abstract void update(long deltaTime);
 	
 	@Override
 	public Dimension getMinimumSize(){

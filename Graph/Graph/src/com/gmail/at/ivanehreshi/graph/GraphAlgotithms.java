@@ -142,8 +142,7 @@ public class GraphAlgotithms {
 			
 			sccArr = new Integer[g.verticesCount];
 		}
-		
-		
+	
 		
 		public void compute(){
 			dfsModLoop();
@@ -272,6 +271,7 @@ public class GraphAlgotithms {
 		public DFSValue[] dfs;
 		private DFSColors colors[];
 		private int time = 0;
+		public ArrayList<Integer> orderedVertices;
 		
 		private void init(){
 			colors = new DFSColors[g.verticesCount];
@@ -290,42 +290,50 @@ public class GraphAlgotithms {
 				init();
 		}
 	
-		public void computeAndSaveStack(ArrayList<String[]> stackFingerPrint, int v)
-		{
+		public void computeAndSaveStack(ArrayList<String[]> stackFingerPrint, int v, boolean user){
+			
 			StringBuilder fingerPrint = new StringBuilder("");
 			Stack<Integer> stack = new Stack<Integer>();
+			orderedVertices = new ArrayList<Integer>(g.verticesCount);
+			for(int i = 0; i <= g.verticesCount; i++)
+				orderedVertices.add(-1);
+		
+			int deltaUser = user ? 1: 0;
 			
-			stack.push(v);
+			stack.push(v + deltaUser);
 			time++;
 			dfs[v].discovery = time;
 			colors[v] = DFSColors.GREY;
+			
 			stackFingerPrint.add(new String[]{"["+String.valueOf(v) + "]"});
+			orderedVertices.set(time, v);
 			
 			while(!stack.isEmpty()){
-				int vert =  stack.lastElement();
+				int vert =  stack.lastElement() - deltaUser;
 				
 				int count = 0;
 				for(int u: g.adjacencyList.get(vert)){
 					if(colors[u] == DFSColors.WHITE){
-						stack.push(u);
+						stack.push(u+deltaUser);
 						time++;
 						count++;
 						
 						colors[u] = DFSColors.GREY;
 						dfs[u].discovery = time;
+						orderedVertices.set(time, u);
 						
 						stackFingerPrint.add(new String[]{stack.toString()});
 					}
 				}
 				if(count == 0){
 					time++;
-					int finv = stack.pop();
+					int finv = stack.pop() - deltaUser;
 					colors[finv] = DFSColors.BLACK;
 					dfs[finv].finishing = time;
 					stackFingerPrint.add(new String[]{stack.toString()});
 				}
 			}
-		
+			System.out.print(1);
 		}
 		
 	}

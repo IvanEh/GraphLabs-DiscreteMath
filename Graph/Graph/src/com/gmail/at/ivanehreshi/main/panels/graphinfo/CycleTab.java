@@ -3,6 +3,8 @@ package com.gmail.at.ivanehreshi.main.panels.graphinfo;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,8 +15,9 @@ import com.gmail.at.ivanehreshi.graph.GraphAlgotithms.StronglyConnectedComponent
 import com.gmail.at.ivanehreshi.graph.OrientedGraph;
 import com.gmail.at.ivanehreshi.interfaces.QueuedUpdatable;
 import com.gmail.at.ivanehreshi.main.GraphicUIApp;
+import com.gmail.at.ivanehreshi.main.panels.graphinfo.GraphInfo.GraphInfoTab;
 
-public class CycleTab extends JPanel implements QueuedUpdatable{
+public class CycleTab extends JPanel implements QueuedUpdatable, GraphInfoTab{
 	GraphAlgotithms.StronglyConnectedComponentsFinder finder;
 	
 	
@@ -54,7 +57,6 @@ public class CycleTab extends JPanel implements QueuedUpdatable{
 			hasCycleLabel.setText(cyclic);
 		}
 		
-		getNextCycle();
 	//	finder.dfsrFindCycle(
 	}
 	
@@ -70,6 +72,18 @@ public class CycleTab extends JPanel implements QueuedUpdatable{
 			}
 		}
 	}
+	
+	public void clearCycles(){
+		if(finder.isCyclic()){
+			for(int i = 0; i < finder.scc.size(); i++){
+				ArrayList<Integer> V = finder.scc.get(0);
+				for(int x: V){
+					app.graphViewer.verticesUI.get(x).hover = false;
+					app.graphViewer.verticesUI.get(x).repaint();
+				}
+			}
+		}
+	}
 
 	@Override
 	public void updateIfNeeded() {
@@ -77,6 +91,7 @@ public class CycleTab extends JPanel implements QueuedUpdatable{
 		if(needToUpdate )
 		{
 			updateInfo();
+			getNextCycle();
 			needToUpdate = false;
 		}
 	}
@@ -86,7 +101,18 @@ public class CycleTab extends JPanel implements QueuedUpdatable{
 		// TODO Auto-generated method stub
 		needToUpdate = true;
 	}
-	
-	
+
+	@Override
+	public void onActivated() {
+		// TODO Auto-generated method stub
+		getNextCycle();
+	}
+
+	@Override
+	public void onDeactivated() {
+		// TODO Auto-generated method stub
+		clearCycles();
+	}
+
 	
 }

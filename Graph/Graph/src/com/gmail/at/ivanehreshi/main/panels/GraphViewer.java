@@ -10,6 +10,8 @@ import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.Observer;
 import java.util.Vector;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import com.gmail.at.ivanehreshi.graph.GraphEvent;
 import com.gmail.at.ivanehreshi.graph.GraphEvent.EventType;
@@ -39,6 +42,8 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 	public ArrayList<GraphicManipulator> graphicManipulators =
 			new ArrayList<GraphicManipulator>();
 	
+	private Timer timer;
+	
 	public  GraphViewer(GraphicUIApp app) {
 		super();
 		
@@ -47,6 +52,17 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 		setLayout(this);
 		setOpaque(false);
 		setGraph(app.graph);
+		
+		timer = new Timer(333, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				repaint();
+			}
+		});
+		timer.setRepeats(true);
+		timer.start();
+		
 	}
 	
 	public void setGraph(OrientedGraph graph){
@@ -160,12 +176,7 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 		g2d.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, 
 				RenderingHints.VALUE_ANTIALIAS_ON));
 		
-		g.drawRect(0, 0, getWidth()-1, getHeight()-1);
-		paintConnections(g2d); 
-	}
-
-	
-	private void paintConnections(Graphics2D g){
+//		g.drawRect(0, 0, getWidth()-1, getHeight()-1);
 		
 		long delta ;	
 		if(lastTimeStamp == 0)
@@ -174,9 +185,30 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 			delta = System.currentTimeMillis() - lastTimeStamp;
 		lastTimeStamp = System.currentTimeMillis();
 		
+		for(GraphicManipulator o: graphicManipulators){
+			if(o == null)
+				continue;
+			
+			o.update(delta);
+			if (o instanceof GraphicObject) {
+				GraphicObject GO = (GraphicObject) o;
+				
+				GO.paintComponents(g);		
+			}
+		}
+		
+		paintConnections(g2d); 
+	}
+
+	
+	private void paintConnections(Graphics2D g){
+		
+
+		
 		for(int i = 0; i < verticesUI.size(); i++)
 		{
 			VertexUI vertex = verticesUI.get(i);
+//			vertex.invalidate();
 			
 			for(int to: app.graph.adjacencyList.get(i) ){
 				if(to != i){		
@@ -187,8 +219,8 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 					double cosPhi = dx/Math.sqrt(dx*dx + dy*dy);
 					double phi = Math.acos(cosPhi);
 					double R = vertex.getSize().getHeight()/2;
-					System.out.println(phi/2/Math.PI*360);
-					System.out.println();
+//					System.out.println(phi/2/Math.PI*360);
+//					System.out.println();
 					
 					
 					double xrho = R*Math.cos(phi);
@@ -232,16 +264,7 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 			
 		}
 		
-		for(GraphicManipulator o: graphicManipulators){
-			if(o == null)
-				continue;
-			o.update(delta);
-			if (o instanceof GraphicObject) {
-				GraphicObject GO = (GraphicObject) o;
-				
-				GO.paintComponents(g);		
-			}
-		}
+
 		
 	}
 	
