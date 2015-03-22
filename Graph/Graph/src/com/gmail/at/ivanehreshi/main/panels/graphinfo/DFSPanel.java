@@ -11,6 +11,7 @@ import com.gmail.at.ivanehreshi.graph.GraphAlgotithms;
 import com.gmail.at.ivanehreshi.interfaces.GraphicManipulator;
 import com.gmail.at.ivanehreshi.interfaces.QueuedUpdatable;
 import com.gmail.at.ivanehreshi.main.GraphicUIApp;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 public class DFSPanel extends JPanel implements QueuedUpdatable{
 	
@@ -27,10 +28,7 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 		setLayout(new FlowLayout());
 		
 		initTable();
-		
-		GraphAlgotithms.DFSValueComputer dfs = new GraphAlgotithms.DFSValueComputer(app.graph);
-		ArrayList<String> stackFingerPrint = new ArrayList<String>();
-		dfs.computeAndSaveStack(stackFingerPrint , 0);
+	
 		
 		app.graphViewer.graphicManipulators.add(dfsVisualization);
 	}
@@ -41,7 +39,17 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 		ArrayList<ArrayList<String>> data;
 		
 		
-		table = new JTable();
+		GraphAlgotithms.DFSValueComputer dfs = new GraphAlgotithms.DFSValueComputer(app.graph);
+		ArrayList<String[]> stackFingerPrint = new ArrayList<String[]>();
+		dfs.computeAndSaveStack(stackFingerPrint , 0);
+		
+		String[][] rows = new String[stackFingerPrint.size()][];
+		for(int i = 0; i < stackFingerPrint.size(); i++){
+			rows[i] = new String[1];
+			rows[i][0] = stackFingerPrint.get(i)[0];
+		}
+		
+		table = new JTable( rows,new String[] {" "});
 		
 		scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);

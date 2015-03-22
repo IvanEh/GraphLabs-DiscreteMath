@@ -290,7 +290,7 @@ public class GraphAlgotithms {
 				init();
 		}
 	
-		public void computeAndSaveStack(ArrayList<String> stackFingerPrint, int v)
+		public void computeAndSaveStack(ArrayList<String[]> stackFingerPrint, int v)
 		{
 			StringBuilder fingerPrint = new StringBuilder("");
 			Stack<Integer> stack = new Stack<Integer>();
@@ -299,7 +299,7 @@ public class GraphAlgotithms {
 			time++;
 			dfs[v].discovery = time;
 			colors[v] = DFSColors.GREY;
-			stackFingerPrint.add("["+String.valueOf(v) + "]");
+			stackFingerPrint.add(new String[]{"["+String.valueOf(v) + "]"});
 			
 			while(!stack.isEmpty()){
 				int vert =  stack.lastElement();
@@ -314,7 +314,7 @@ public class GraphAlgotithms {
 						colors[u] = DFSColors.GREY;
 						dfs[u].discovery = time;
 						
-						stackFingerPrint.add(stack.toString());
+						stackFingerPrint.add(new String[]{stack.toString()});
 					}
 				}
 				if(count == 0){
@@ -322,7 +322,7 @@ public class GraphAlgotithms {
 					int finv = stack.pop();
 					colors[finv] = DFSColors.BLACK;
 					dfs[finv].finishing = time;
-					stackFingerPrint.add(stack.toString());
+					stackFingerPrint.add(new String[]{stack.toString()});
 				}
 			}
 		
