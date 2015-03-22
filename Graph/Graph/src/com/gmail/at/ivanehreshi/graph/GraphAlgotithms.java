@@ -290,12 +290,12 @@ public class GraphAlgotithms {
 				init();
 		}
 	
-		public void computeAndSaveStack(ArrayList<String[]> stackFingerPrint, int v, boolean user){
+		public void computeAndSaveStack2(ArrayList<String[]> stackFingerPrint, int v, boolean user){
 			
 			StringBuilder fingerPrint = new StringBuilder("");
 			Stack<Integer> stack = new Stack<Integer>();
-			orderedVertices = new ArrayList<Integer>(g.verticesCount);
-			for(int i = 0; i <= g.verticesCount; i++)
+			orderedVertices = new ArrayList<Integer>(g.verticesCount+1);
+			for(int i = 0; i <= g.verticesCount+1; i++)
 				orderedVertices.add(-1);
 		
 			int deltaUser = user ? 1: 0;
@@ -310,8 +310,8 @@ public class GraphAlgotithms {
 			
 			while(!stack.isEmpty()){
 				int vert =  stack.lastElement() - deltaUser;
-				
 				int count = 0;
+				
 				for(int u: g.adjacencyList.get(vert)){
 					if(colors[u] == DFSColors.WHITE){
 						stack.push(u+deltaUser);
@@ -336,6 +336,56 @@ public class GraphAlgotithms {
 			System.out.print(1);
 		}
 		
+		
+		public void computeAndSaveStack(ArrayList<String[]> stackFingerPrint, int v, boolean user){
+			
+			StringBuilder fingerPrint = new StringBuilder("");
+			Stack<Integer> stack = new Stack<Integer>();
+			
+			orderedVertices = new ArrayList<Integer>(g.verticesCount+1);
+			for(int i = 0; i <= g.verticesCount+1; i++)
+				orderedVertices.add(-1);
+		
+			int deltaUser = user ? 1: 0;
+			
+			stack.push(v + deltaUser);
+			time++;
+			dfs[v].discovery = time;
+			colors[v] = DFSColors.GREY;
+			
+			stackFingerPrint.add(new String[]{"["+String.valueOf(v+deltaUser) + "]"});
+			orderedVertices.set(time, v);
+			
+			while(!stack.isEmpty()){
+				v = stack.lastElement() - deltaUser;
+			
+				boolean first = false;
+				for(int u: g.adjacencyList.get(v)){
+					if(colors[u] != DFSColors.WHITE)
+						continue;
+					
+					if(first)
+						break;
+					
+					first = true;
+					
+					time++;
+					stack.push(u + deltaUser);
+					colors[u] = DFSColors.GREY;
+					dfs[u].discovery = time;
+					orderedVertices.set(time, u);
+					
+					stackFingerPrint.add(new String[]{stack.toString()});
+				}
+				
+				if(!first){
+					stack.pop();
+					colors[v] = DFSColors.BLACK;
+					stackFingerPrint.add(new String[]{stack.toString()});
+				}
+			}
+		
+		}
 	}
 	
 }
