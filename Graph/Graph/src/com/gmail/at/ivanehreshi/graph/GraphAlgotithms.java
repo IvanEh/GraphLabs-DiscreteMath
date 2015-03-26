@@ -371,12 +371,14 @@ public class GraphAlgotithms {
 		}
 	
 		public void computeAndSaveProtocol(int startVertex,
-				ArrayList<String[]> protocol){
+				ArrayList<String[]> protocol, boolean user){
+			int delta = user ? 1: 0;
+			
 			if(protocol == null)
 				protocol = new ArrayList<String[]>();
 			
 			LinkedList<Integer> Q = new LinkedList<Integer>();
-			Q.add(startVertex);
+			Q.add(startVertex + delta);
 			bfs[startVertex].color = VertexColors.GREY;
 			bfs[startVertex].discovery = 0;
 			bfs[startVertex].distance = 0;
@@ -389,21 +391,22 @@ public class GraphAlgotithms {
 			while(!Q.isEmpty()){
 				time++;
 				String qfingerprint = Q.toString();
-				int v = Q.poll();
-				protocol.add(new String[]{v + " : " + time + " " + qfingerprint});
+				int v = Q.poll() - delta;
+				protocol.add(new String[]{v+delta + " : " + time + " " + qfingerprint});
 				orderedVertices.set(time, v);
 				for(int u: g.adjacencyList.get(v)){
 					if(bfs[u].color != VertexColors.WHITE)
 						continue;
 					
-					Q.add(u);
+					Q.add(u + delta);
 					bfs[u].color = VertexColors.GREY;
 					bfs[u].distance = bfs[v].distance + 1;
 					bfs[u].pred = v;
 				}
 				
 				bfs[v].color = VertexColors.BLACK;
-				protocol.add(new String[]{"- : - " + qfingerprint});
+				
+				protocol.add(new String[]{"- : - " + Q.toString()});
 			}
 			
 		}

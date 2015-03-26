@@ -43,6 +43,7 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		addTab("Цикли", cycleTab);
 		addTab("Додаткова інформація",new  AdditionalInformation(app));
 		addTab("Пошук в глибину", new DFSPanel(app));
+		addTab("Пошук в ширину", new BFSPanel(app));
 		
 		lastActiveTab = 0;
 		
