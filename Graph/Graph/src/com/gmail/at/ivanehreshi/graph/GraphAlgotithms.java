@@ -3,6 +3,7 @@ package com.gmail.at.ivanehreshi.graph;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.Stack;
 
 import com.gmail.at.ivanehreshi.utility.Pair;
@@ -98,7 +99,7 @@ public class GraphAlgotithms {
 		private ArrayList<ArrayList<Integer>> adj;
 		private ArrayList<ArrayList<Integer>> tAdj;
 		public DFSValue[] dfs1, dfs2;
-		private DFSColors colors[];
+		private VertexColors colors[];
 		private int time = 0;
 		
 		public ArrayList<ArrayList<Integer>> scc = new ArrayList<ArrayList<Integer>>();
@@ -109,9 +110,9 @@ public class GraphAlgotithms {
 			this.g = g;
 			adj = g.adjacencyMatrix;
 			
-			colors = new DFSColors[g.verticesCount];
+			colors = new VertexColors[g.verticesCount];
 			for(int i = 0; i < g.verticesCount; i++)
-				colors[i] = DFSColors.WHITE;
+				colors[i] = VertexColors.WHITE;
 			
 			dfs1 = new DFSValue[g.verticesCount];
 			dfs2 = new DFSValue[g.verticesCount];
@@ -162,7 +163,7 @@ public class GraphAlgotithms {
 		private void dfsModLoop( ){
 			
 			for(int i = 0; i < g.verticesCount; i++){
-				if(colors[i] == DFSColors.WHITE)
+				if(colors[i] == VertexColors.WHITE)
 					dfsr(i, adj, dfs1, null);
 			}
 			
@@ -188,10 +189,10 @@ public class GraphAlgotithms {
 			});
 		
 			for(int i = 0; i < g.verticesCount; i++)
-				colors[i] = DFSColors.WHITE;
+				colors[i] = VertexColors.WHITE;
 			
 			for(Pair<Integer> x: verticesOrdered){
-				if(colors[x.first] == DFSColors.WHITE){
+				if(colors[x.first] == VertexColors.WHITE){
 					ArrayList<Integer> comp = new ArrayList<Integer>();
 					dfsr(x.first, tAdj, dfs2, comp);
 					if(comp.size() != 1){
@@ -202,7 +203,7 @@ public class GraphAlgotithms {
 			}
 			
 			for(int i = 0; i < g.verticesCount; i++)
-				colors[i] = DFSColors.WHITE;
+				colors[i] = VertexColors.WHITE;
 		}
 
 		private void dfsr(int v, ArrayList<ArrayList<Integer>> adj, DFSValue[] dfsv, ArrayList<Integer> scc ) {
@@ -214,25 +215,25 @@ public class GraphAlgotithms {
 				sccArr[v] = sccCounter;
 			}
 			
-			colors[v] = DFSColors.GREY;
+			colors[v] = VertexColors.GREY;
 			for(int u = 0; u < g.verticesCount; u++ ){
 				if(adj.get(v).get(u) == 0)
 					continue;
 				
-				if(colors[u] == DFSColors.WHITE){
+				if(colors[u] == VertexColors.WHITE){
 					dfsv[u].pred = v;
 					dfsr(u, adj, dfsv, scc);
 				}
 				
 			}
 			
-			colors[v] = DFSColors.BLACK;
+			colors[v] = VertexColors.BLACK;
 			time++;
 			dfsv[v].finishing = time;
 		}
 		
 		public void dfsrFindCycle(int v, int begin, int level){
-			colors[v] = DFSColors.GREY;
+			colors[v] = VertexColors.GREY;
 			System.out.println(v + " ");
 			
 			for(int u: g.adjacencyList.get(v)){
@@ -244,12 +245,12 @@ public class GraphAlgotithms {
 					return;
 				}
 				
-				if(colors[u] == DFSColors.WHITE){
+				if(colors[u] == VertexColors.WHITE){
 					dfsrFindCycle(u, begin, level);
 				}
 				
 			}
-			colors[v] = DFSColors.BLACK;
+			colors[v] = VertexColors.BLACK;
 		}
 		
 	}
@@ -258,9 +259,18 @@ public class GraphAlgotithms {
 		public Integer pred = null;
 		public int discovery = 0;
 		public int finishing = 0;
+		public VertexColors color = VertexColors.WHITE;
 	}
 	
-	enum DFSColors {
+	public static class BFSValue {
+		public Integer pred = null;
+		public int discovery = 0;
+		public int finishing = 0;
+		public int distance = 0;
+		public VertexColors color = VertexColors.WHITE;
+	}
+	
+	enum VertexColors {
 		WHITE,
 		GREY,
 		BLACK
@@ -269,14 +279,14 @@ public class GraphAlgotithms {
 	public static class DFSValueComputer {
 		OrientedGraph g;
 		public DFSValue[] dfs;
-		private DFSColors colors[];
+		private VertexColors colors[];
 		private int time = 0;
 		public ArrayList<Integer> orderedVertices;
 		
 		private void init(){
-			colors = new DFSColors[g.verticesCount];
+			colors = new VertexColors[g.verticesCount];
 			for(int i = 0; i < g.verticesCount; i++)
-				colors[i] = DFSColors.WHITE;
+				colors[i] = VertexColors.WHITE;
 			
 			dfs = new DFSValue[g.verticesCount];
 			for(int i = 0; i < g.verticesCount; i++){
@@ -290,52 +300,6 @@ public class GraphAlgotithms {
 				init();
 		}
 	
-		public void computeAndSaveStack2(ArrayList<String[]> stackFingerPrint, int v, boolean user){
-			
-			StringBuilder fingerPrint = new StringBuilder("");
-			Stack<Integer> stack = new Stack<Integer>();
-			orderedVertices = new ArrayList<Integer>(g.verticesCount+1);
-			for(int i = 0; i <= g.verticesCount+1; i++)
-				orderedVertices.add(-1);
-		
-			int deltaUser = user ? 1: 0;
-			
-			stack.push(v + deltaUser);
-			time++;
-			dfs[v].discovery = time;
-			colors[v] = DFSColors.GREY;
-			
-			stackFingerPrint.add(new String[]{"["+String.valueOf(v+deltaUser) + "]"});
-			orderedVertices.set(time, v);
-			
-			while(!stack.isEmpty()){
-				int vert =  stack.lastElement() - deltaUser;
-				int count = 0;
-				
-				for(int u: g.adjacencyList.get(vert)){
-					if(colors[u] == DFSColors.WHITE){
-						stack.push(u+deltaUser);
-						time++;
-						count++;
-						
-						colors[u] = DFSColors.GREY;
-						dfs[u].discovery = time;
-						orderedVertices.set(time, u);
-						
-						stackFingerPrint.add(new String[]{stack.toString()});
-					}
-				}
-				if(count == 0){
-					time++;
-					int finv = stack.pop() - deltaUser;
-					colors[finv] = DFSColors.BLACK;
-					dfs[finv].finishing = time;
-					stackFingerPrint.add(new String[]{stack.toString()});
-				}
-			}
-			System.out.print(1);
-		}
-		
 		
 		public void computeAndSaveStack(ArrayList<String[]> stackFingerPrint, int v, boolean user){
 			
@@ -351,7 +315,7 @@ public class GraphAlgotithms {
 			stack.push(v + deltaUser);
 			time++;
 			dfs[v].discovery = time;
-			colors[v] = DFSColors.GREY;
+			colors[v] = VertexColors.GREY;
 			
 			stackFingerPrint.add(new String[]{v + " : 1 "+ "["+String.valueOf(v+deltaUser) + "]"});
 			orderedVertices.set(time, v);
@@ -361,7 +325,7 @@ public class GraphAlgotithms {
 			
 				boolean first = false;
 				for(int u: g.adjacencyList.get(v)){
-					if(colors[u] != DFSColors.WHITE)
+					if(colors[u] != VertexColors.WHITE)
 						continue;
 					
 					if(first)
@@ -371,7 +335,7 @@ public class GraphAlgotithms {
 					
 					time++;
 					stack.push(u + deltaUser);
-					colors[u] = DFSColors.GREY;
+					colors[u] = VertexColors.GREY;
 					dfs[u].discovery = time;
 					orderedVertices.set(time, u);
 					
@@ -380,12 +344,70 @@ public class GraphAlgotithms {
 				
 				if(!first){
 					stack.pop();
-					colors[v] = DFSColors.BLACK;
+					colors[v] = VertexColors.BLACK;
 					stackFingerPrint.add(new String[]{" - : -    " + stack.toString()});
 				}
 			}
 		
 		}
 	}
+
+	public static class BFSValueComputer {
+		OrientedGraph g;
+		public BFSValue[] bfs;
+		private int time = 0;
+		public ArrayList<Integer> orderedVertices;
+		
+		private void init(){
+			bfs = new BFSValue[g.verticesCount];
+			for(int i = 0; i < g.verticesCount; i++){
+				bfs[i] = new BFSValue();
+			}
+		}
+
+		public BFSValueComputer(OrientedGraph g){
+				this.g = g;
+				init();
+		}
+	
+		public void computeAndSaveProtocol(int startVertex,
+				ArrayList<String[]> protocol){
+			if(protocol == null)
+				protocol = new ArrayList<String[]>();
+			
+			LinkedList<Integer> Q = new LinkedList<Integer>();
+			Q.add(startVertex);
+			bfs[startVertex].color = VertexColors.GREY;
+			bfs[startVertex].discovery = 0;
+			bfs[startVertex].distance = 0;
+			
+			orderedVertices = new ArrayList<Integer>(g.verticesCount+1);
+			for(int i = 0; i <= g.verticesCount+1; i++)
+				orderedVertices.add(-1);
+			time = 0;
+			
+			while(!Q.isEmpty()){
+				time++;
+				String qfingerprint = Q.toString();
+				int v = Q.poll();
+				protocol.add(new String[]{v + " : " + time + " " + qfingerprint});
+				orderedVertices.set(time, v);
+				for(int u: g.adjacencyList.get(v)){
+					if(bfs[u].color != VertexColors.WHITE)
+						continue;
+					
+					Q.add(u);
+					bfs[u].color = VertexColors.GREY;
+					bfs[u].distance = bfs[v].distance + 1;
+					bfs[u].pred = v;
+				}
+				
+				bfs[v].color = VertexColors.BLACK;
+				protocol.add(new String[]{"- : - " + qfingerprint});
+			}
+			
+		}
+	}
+	
 	
 }
