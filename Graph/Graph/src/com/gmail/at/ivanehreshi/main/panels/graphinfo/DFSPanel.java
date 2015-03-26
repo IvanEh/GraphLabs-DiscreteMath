@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.Observer;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -27,14 +28,27 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 	private JScrollPane scrollPane;
 	private JTable table;
 	private DFSValueComputer dfs; 
+	private int startVertex = 0;
 	
 	public DFSPanel(GraphicUIApp app){
 		this.app = app;
 		
 		setLayout(new FlowLayout());
 		
-		init();
+	//	init();
 	
+	}
+	
+	public void GUIInit(){
+		String inputBoxStr = 
+				JOptionPane.showInputDialog(app, "Введіть вершину з якої слід почати пошук");
+		
+		int value = Integer.valueOf(inputBoxStr);
+		value--;
+		if(value>= 0 && value < app.graph.verticesCount)
+			startVertex = value;
+		
+		init();
 	}
 	
 	private void init() {
@@ -45,7 +59,8 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 		
 		dfs = new GraphAlgotithms.DFSValueComputer(app.graph);
 		ArrayList<String[]> stackFingerPrint = new ArrayList<String[]>();
-		dfs.computeAndSaveStack(stackFingerPrint , 0, true);
+		
+		dfs.computeAndSaveStack(stackFingerPrint , startVertex, true);
 		
 		String[][] rows = new String[stackFingerPrint.size()][];
 		for(int i = 0; i < stackFingerPrint.size(); i++){
@@ -67,8 +82,6 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 	}
 
 	public class DFSVisualization implements GraphicManipulator{
-
-		//GraphAlgotithms.DFSValueComputer dfs;
 		
 		public static final long frameTime = 400;
 		public long currentFrameTime = 0;
@@ -83,7 +96,6 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 		
 		@Override
 		public void update(long deltaTime) {
-			System.out.println(deltaTime);
 			Container parent = getParent();
 			
 			if (parent instanceof GraphInfo) {
@@ -145,9 +157,9 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 	@Override
 	public void updateIfNeeded() {
 		// TODO Auto-generated method stub
+		GUIInit();
 		if(needToUpdate){
 			needToUpdate = false;
-			init();
 		}
 	}
 	
