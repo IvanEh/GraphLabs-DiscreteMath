@@ -353,7 +353,7 @@ public class GraphAlgotithms {
 			dfs[v].discovery = time;
 			colors[v] = DFSColors.GREY;
 			
-			stackFingerPrint.add(new String[]{"["+String.valueOf(v+deltaUser) + "]"});
+			stackFingerPrint.add(new String[]{v + " : 1 "+ "["+String.valueOf(v+deltaUser) + "]"});
 			orderedVertices.set(time, v);
 			
 			while(!stack.isEmpty()){
@@ -375,13 +375,13 @@ public class GraphAlgotithms {
 					dfs[u].discovery = time;
 					orderedVertices.set(time, u);
 					
-					stackFingerPrint.add(new String[]{stack.toString()});
+					stackFingerPrint.add(new String[]{u + " : " + time +  "   "+ stack.toString()});
 				}
 				
 				if(!first){
 					stack.pop();
 					colors[v] = DFSColors.BLACK;
-					stackFingerPrint.add(new String[]{stack.toString()});
+					stackFingerPrint.add(new String[]{" - : -    " + stack.toString()});
 				}
 			}
 		
