@@ -26,14 +26,14 @@ import com.gmail.at.ivanehreshi.main.panels.graphinfo.GraphInfo;
 public class GraphicUIApp extends JFrame implements Observer{
 	public OrientedGraph graph;
 	public GraphViewer graphViewer;
-	private GraphInfo graphInfo;
+	public GraphInfo graphInfo;
 	
 	public GraphicUIApp(OrientedGraph graph){
 		super();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		setTitle("Lab");
-		setSize(800, 600);
+		setSize(1000, 800);
 		
 		getContentPane().setLayout(new GridLayout(2, 1, 10, 0));
 		
@@ -75,10 +75,6 @@ public class GraphicUIApp extends JFrame implements Observer{
 		fromFile.addActionListener(new FromFileAction(this));
 		
 		setJMenuBar(menuBar);
-//		VertexUI v3 = new VertexUI();
-//		v3.setLocation(150, 150);
-//		v3.setSize(50, 50);
-//		graphViewer.add(v3);
 	}
 
 	public static void main(String[] arg){

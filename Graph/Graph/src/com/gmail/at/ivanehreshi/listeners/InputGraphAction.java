@@ -7,7 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.gmail.at.ivanehreshi.graph.GraphEvent;
 import com.gmail.at.ivanehreshi.graph.OrientedGraph;
+import com.gmail.at.ivanehreshi.graph.GraphEvent.EventType;
 import com.gmail.at.ivanehreshi.main.GraphicUIApp;
 
 public class InputGraphAction implements ActionListener {
@@ -23,6 +25,8 @@ public class InputGraphAction implements ActionListener {
 		
 		int paramVertCount = 0;
 		int paramEdgeCount = 0;
+		
+		frame.graphInfo.disabledUpdate = true;
 		
 		 int mode = JOptionPane.showConfirmDialog((Component)frame, "Ввести новий граф", "",
 				 JOptionPane.YES_NO_OPTION);
@@ -51,8 +55,8 @@ public class InputGraphAction implements ActionListener {
 			frame.graph.connect(v1, v2);
 		 }
 		 
-		 
-		 
+		 frame.graphInfo.disabledUpdate = false;
+		 frame.graph.notifyObservers(new GraphEvent(EventType.GRAPH_CREATED), true);
 	}
 
 }

@@ -29,7 +29,6 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 	private JTable table;
 	private DFSValueComputer dfs; 
 	private int startVertex = 0;
-	
 	public DFSPanel(GraphicUIApp app){
 		this.app = app;
 		

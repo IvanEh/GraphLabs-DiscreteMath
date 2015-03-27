@@ -25,6 +25,7 @@ public class GraphInfo extends JTabbedPane implements Observer {
 	java.util.Observable observable;
 	private CycleTab cycleTab;
 	int lastActiveTab;
+	public boolean disabledUpdate = false;
 	
 	public GraphInfo(OrientedGraph g, GraphicUIApp app){
 		super();
@@ -32,7 +33,6 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		this.app = app;
 		
 		DistanceModel distanceModel = new DistanceModel(app);
-		
 		
 		distanceMatrixPanel = new DistanceMatrixPanel(app, distanceModel);
 		cycleTab = new  CycleTab(app);
@@ -52,6 +52,9 @@ public class GraphInfo extends JTabbedPane implements Observer {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				// TODO Auto-generated method stub
+				if(disabledUpdate)
+					return;
+				
 				JTabbedPane source = (JTabbedPane) e.getSource();
 				
 				int index = source.getSelectedIndex();
@@ -80,7 +83,9 @@ public class GraphInfo extends JTabbedPane implements Observer {
 	
 	@Override
 	public void update(java.util.Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		if(disabledUpdate)
+			return;
+		
 		for(int i = 0; i < getTabCount(); i++){
 			Component c = getComponentAt(i);
 			if(c instanceof QueuedUpdatable){

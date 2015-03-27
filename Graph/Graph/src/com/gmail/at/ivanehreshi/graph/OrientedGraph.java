@@ -332,4 +332,11 @@ public class OrientedGraph extends Observable{
 		setChanged();
 		notifyObservers(new GraphEvent().setEventType(EventType.GRAPH_CREATED));
 	}
+	
+	public void notifyObservers(GraphEvent e, boolean force){
+		if(force)
+			setChanged();
+		
+		notifyObservers(e);
+	}
 }
