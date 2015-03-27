@@ -33,7 +33,7 @@ public class GraphicUIApp extends JFrame implements Observer{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		setTitle("Lab");
-		setSize(1000, 800);
+		setSize(800, 700);
 		
 		getContentPane().setLayout(new GridLayout(2, 1, 10, 0));
 		

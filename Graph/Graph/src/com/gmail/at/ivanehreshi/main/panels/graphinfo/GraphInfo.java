@@ -26,6 +26,8 @@ public class GraphInfo extends JTabbedPane implements Observer {
 	private CycleTab cycleTab;
 	int lastActiveTab;
 	public boolean disabledUpdate = false;
+	private DFSPanel dfsPanel;
+	private BFSPanel bfsPanel;
 	
 	public GraphInfo(OrientedGraph g, GraphicUIApp app){
 		super();
@@ -34,16 +36,24 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		
 		DistanceModel distanceModel = new DistanceModel(app);
 		
-		distanceMatrixPanel = new DistanceMatrixPanel(app, distanceModel);
-		cycleTab = new  CycleTab(app);
+		distanceMatrixPanel = new DistanceMatrixPanel(app, distanceModel);;
+		add("Матриця відстаней", distanceMatrixPanel);
 		
-		addTab("Матриця відстаней", distanceMatrixPanel);
 		addTab("Матриця досяжності", new ReachibilityMatrixPanel(app, distanceModel));
 		addTab("Матриця суміжності", new AdjacencyMatrixTab(app));
+		
+		cycleTab = new  CycleTab(app);
 		addTab("Цикли", cycleTab);
+		
 		addTab("Додаткова інформація",new  AdditionalInformation(app));
-		addTab("Пошук в глибину", new DFSPanel(app));
-		addTab("Пошук в ширину", new BFSPanel(app));
+		
+		dfsPanel =  new DFSPanel(app);
+		addTab("Пошук в глибину",dfsPanel );
+		setTabComponentAt(5, new UpdateButtonForSearch("DFS пошук в глибину", dfsPanel));
+		
+		bfsPanel = new BFSPanel(app);
+		addTab("Пошук в ширину", bfsPanel);
+		setTabComponentAt(6, new UpdateButtonForSearch("BFS пошук в ширину", bfsPanel));
 		
 		lastActiveTab = 0;
 		
