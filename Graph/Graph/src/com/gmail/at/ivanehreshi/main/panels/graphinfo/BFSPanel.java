@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JViewport;
 
 import com.gmail.at.ivanehreshi.graph.GraphAlgotithms;
 import com.gmail.at.ivanehreshi.graph.GraphAlgotithms.BFSValueComputer;
@@ -16,8 +17,10 @@ import com.gmail.at.ivanehreshi.interfaces.GraphicManipulator;
 import com.gmail.at.ivanehreshi.interfaces.QueuedUpdatable;
 import com.gmail.at.ivanehreshi.main.GraphicUIApp;
 import com.gmail.at.ivanehreshi.main.panels.GraphViewer;
+import com.gmail.at.ivanehreshi.main.panels.VertexUI;
+import com.gmail.at.ivanehreshi.main.panels.graphinfo.GraphInfo.GraphInfoTab;
 
-public class BFSPanel extends JPanel implements QueuedUpdatable{
+public class BFSPanel extends JPanel implements QueuedUpdatable, GraphInfoTab{
 	
 	GraphicUIApp app;
 	BFSVisualization bfsVisualization;
@@ -30,6 +33,11 @@ public class BFSPanel extends JPanel implements QueuedUpdatable{
 	
 	public BFSPanel(GraphicUIApp app){
 		this.app = app;
+		
+		for(VertexUI vui: app.graphViewer.verticesUI ){
+			vui.mainColor = Color.BLUE;
+			vui.hover = false;
+		}
 		
 		setLayout(new FlowLayout());
 	}
@@ -72,6 +80,7 @@ public class BFSPanel extends JPanel implements QueuedUpdatable{
 		if (app.graphViewer.graphicManipulators.contains(bfsVisualization))
 			app.graphViewer.graphicManipulators.remove(bfsVisualization);
 		
+		app.graphViewer.graphicManipulators.clear();
 		bfsVisualization = new BFSVisualization();
 		app.graphViewer.graphicManipulators.add(bfsVisualization);
 	}
@@ -86,10 +95,19 @@ public class BFSPanel extends JPanel implements QueuedUpdatable{
 		
 		@Override
 		public void update(long deltaTime) {
-			Container parent = getParent();
+			Container p = getParent();
+			Object parent = null;
 			
+			if(p instanceof JViewport){
+				parent = ((JViewport) p).getParent();
+			}
+			
+			if(parent instanceof GraphInfo){
+				parent = ((JViewport) parent).getParent();
+			}
+		
 			if (parent instanceof GraphInfo) {
-				GraphInfo ginfo = (GraphInfo) parent;
+				GraphInfo ginfo = (GraphInfo) p;
 				if(! (ginfo.getSelectedComponent() instanceof BFSPanel) 
 						|| ((BFSPanel)ginfo.getSelectedComponent()) != BFSPanel.this){
 					
@@ -150,6 +168,22 @@ public class BFSPanel extends JPanel implements QueuedUpdatable{
 		GUIInit();
 		if(needToUpdate){
 			needToUpdate = false;
+		}
+	}
+
+	@Override
+	public void onActivated() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDeactivated() {
+		// TODO Auto-generated method stub
+		app.graphViewer.graphicManipulators.clear();
+		for(VertexUI vui: app.graphViewer.verticesUI ){
+			vui.mainColor = Color.BLUE;
+			vui.hover = false;
 		}
 	}
 	

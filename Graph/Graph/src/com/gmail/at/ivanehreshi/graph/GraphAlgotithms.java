@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Stack;
+import java.util.Vector;
 
 import com.gmail.at.ivanehreshi.utility.Pair;
 
@@ -143,7 +144,6 @@ public class GraphAlgotithms {
 			
 			sccArr = new Integer[g.verticesCount];
 		}
-	
 		
 		public void compute(){
 			dfsModLoop();
@@ -317,7 +317,7 @@ public class GraphAlgotithms {
 			dfs[v].discovery = time;
 			colors[v] = VertexColors.GREY;
 			
-			stackFingerPrint.add(new String[]{v + " : 1 "+ "["+String.valueOf(v+deltaUser) + "]"});
+			stackFingerPrint.add(new String[]{v+deltaUser + " : 1 "+ "["+String.valueOf(v+deltaUser) + "]"});
 			orderedVertices.set(time, v);
 			
 			while(!stack.isEmpty()){
@@ -339,7 +339,7 @@ public class GraphAlgotithms {
 					dfs[u].discovery = time;
 					orderedVertices.set(time, u);
 					
-					stackFingerPrint.add(new String[]{u + " : " + time +  "   "+ stack.toString()});
+					stackFingerPrint.add(new String[]{u + deltaUser + " : " + time +  "   "+ stack.toString()});
 				}
 				
 				if(!first){
@@ -388,11 +388,13 @@ public class GraphAlgotithms {
 				orderedVertices.add(-1);
 			time = 0;
 			
+//			protocol.add(new String[]{startVertex + delta + " : " + 1 + " [" + (startVertex + delta) + "]"});
+			
 			while(!Q.isEmpty()){
 				time++;
-				String qfingerprint = Q.toString();
-				int v = Q.poll() - delta;
-				protocol.add(new String[]{v+delta + " : " + time + " " + qfingerprint});
+				
+				int v = Q.peek() - delta;
+				
 				orderedVertices.set(time, v);
 				for(int u: g.adjacencyList.get(v)){
 					if(bfs[u].color != VertexColors.WHITE)
@@ -402,14 +404,78 @@ public class GraphAlgotithms {
 					bfs[u].color = VertexColors.GREY;
 					bfs[u].distance = bfs[v].distance + 1;
 					bfs[u].pred = v;
+					
+					String qfingerprint = Q.toString();
+					protocol.add(new String[]{u+delta + " : " + time + " " + qfingerprint});
 				}
 				
 				bfs[v].color = VertexColors.BLACK;
-				
+				Q.poll();
 				protocol.add(new String[]{"- : - " + Q.toString()});
 			}
 			
 		}
+	}
+	
+	public static class TopologicalSort {
+		
+		private OrientedGraph graph;
+		public Vector<Integer> bags = new Vector<>();
+		public DFSValue[] dfsv;
+		
+		public TopologicalSort(OrientedGraph graph){
+			this.graph = graph;
+			dfsv = new DFSValue[graph.verticesCount];
+			for(int i = 0; i < dfsv.length; i++)
+				dfsv[i] = new DFSValue();
+		}
+		
+		public void compute(){
+			for(int i = 0; i < graph.verticesCount; i++ ){
+				if(dfsv[i].color == VertexColors.WHITE){
+					int time = 0;
+					Vector<Integer> merge = new Vector<Integer>();
+					dfsr(i, merge, time, 0 );
+					for(int j = 0; j < merge.size(); j++){
+						Collections.sort(merge, new Comparator<Integer>() {
+							@Override
+							public int compare(Integer o1, Integer o2){
+								return dfsv[o1.intValue()].finishing - dfsv[o2.intValue()].finishing;
+							}
+						});
+					}
+					bags.addAll(merge);
+				}
+			}
+			
+
+			
+		}
+		
+		private void dfsr(int v, Vector<Integer> merge, int time, int id){
+			time++;
+			dfsv[v].discovery = time;
+			
+			
+			dfsv[v].color = VertexColors.GREY;
+			for(int u = 0; u < graph.verticesCount; u++ ){
+				if(graph.adjacencyMatrix.get(v).get(u) == 0)
+					continue;
+				
+				if(dfsv[u].color == VertexColors.WHITE){
+					dfsv[u].pred = v;
+					dfsr(u,merge, time, id);
+				}
+				
+			}
+			
+			dfsv[v].color = VertexColors.BLACK;
+			time++;
+			dfsv[v].finishing = time;
+			
+			merge.add(v);
+		}
+		
 	}
 	
 	

@@ -28,6 +28,7 @@ public class GraphInfo extends JTabbedPane implements Observer {
 	public boolean disabledUpdate = false;
 	private DFSPanel dfsPanel;
 	private BFSPanel bfsPanel;
+	private ConnectedComponents connectedComponents;
 	
 	public GraphInfo(OrientedGraph g, GraphicUIApp app){
 		super();
@@ -37,9 +38,9 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		DistanceModel distanceModel = new DistanceModel(app);
 		
 		distanceMatrixPanel = new DistanceMatrixPanel(app, distanceModel);;
-		add("Матриця відстаней", distanceMatrixPanel);
+		add("Матриця відстаней",distanceMatrixPanel);
 		
-		addTab("Матриця досяжності", new ReachibilityMatrixPanel(app, distanceModel));
+//		addTab("Матриця досяжності", new ReachibilityMatrixPanel(app, distanceModel));
 		addTab("Матриця суміжності", new AdjacencyMatrixTab(app));
 		
 		cycleTab = new  CycleTab(app);
@@ -47,13 +48,19 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		
 		addTab("Додаткова інформація",new  AdditionalInformation(app));
 		
-		dfsPanel =  new DFSPanel(app);
-		addTab("Пошук в глибину",dfsPanel );
-		setTabComponentAt(5, new UpdateButtonForSearch("DFS пошук в глибину", dfsPanel));
+//		dfsPanel =  new DFSPanel(app);
+//		addTab("Пошук в глибину",new JScrollPane(dfsPanel)  );
+//		setTabComponentAt(5, new UpdateButtonForSearch("DFS пошук в глибину", dfsPanel));
 		
-		bfsPanel = new BFSPanel(app);
-		addTab("Пошук в ширину", bfsPanel);
-		setTabComponentAt(6, new UpdateButtonForSearch("BFS пошук в ширину", bfsPanel));
+//		bfsPanel = new BFSPanel(app);
+//		addTab("Пошук в ширину", new JScrollPane(bfsPanel));
+//		setTabComponentAt(6, new UpdateButtonForSearch("BFS пошук в ширину", bfsPanel));
+		
+		connectedComponents = new ConnectedComponents(app);
+		addTab("Сильно зв'язані компоненти", connectedComponents);
+		
+		TopologicalSortTab topologicalSortTab = new TopologicalSortTab(app);
+		addTab("Топологічне сортування", topologicalSortTab);
 		
 		lastActiveTab = 0;
 		
@@ -70,13 +77,23 @@ public class GraphInfo extends JTabbedPane implements Observer {
 				int index = source.getSelectedIndex();
 				Object c =  source.getComponentAt(index);
 				
+				if(c instanceof JScrollPane){
+					c = ((JScrollPane) c).getViewport().getComponent(0);
+				}
 				
 				if(c instanceof QueuedUpdatable){
 					((QueuedUpdatable)c).updateIfNeeded();
 				}
 				
-				if (source.getComponentAt(lastActiveTab) instanceof GraphInfoTab) {
-					((GraphInfoTab)source.getComponentAt(lastActiveTab)).onDeactivated();
+				
+				Object x = source.getComponentAt(lastActiveTab);
+				if(x instanceof JScrollPane){
+					x = ((JScrollPane) x).getViewport().getComponent(0);
+				}
+				
+				
+				if (x instanceof GraphInfoTab) {
+					((GraphInfoTab) x).onDeactivated();
 				}
 				
 				if(source.getComponentAt(index) instanceof GraphInfoTab){
@@ -98,6 +115,9 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		
 		for(int i = 0; i < getTabCount(); i++){
 			Component c = getComponentAt(i);
+			if(c instanceof JScrollPane){
+				c = ((JScrollPane) c).getViewport().getComponent(0);
+			}
 			if(c instanceof QueuedUpdatable){
 				
 				((QueuedUpdatable) c).queryUpdate();

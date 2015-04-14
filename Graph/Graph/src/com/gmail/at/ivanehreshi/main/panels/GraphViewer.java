@@ -1,5 +1,6 @@
 package com.gmail.at.ivanehreshi.main.panels;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -10,6 +11,7 @@ import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
@@ -41,7 +43,7 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 	
 	public ArrayList<GraphicManipulator> graphicManipulators =
 			new ArrayList<GraphicManipulator>();
-	
+		
 	private Timer timer;
 	
 	public  GraphViewer(GraphicUIApp app) {
@@ -63,6 +65,12 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 		timer.setRepeats(true);
 		timer.start();
 		
+	}
+	
+	public void unhoverAll(){
+		for(VertexUI vui: verticesUI){
+			vui.hover =false;
+		}
 	}
 	
 	public void setGraph(OrientedGraph graph){
@@ -207,6 +215,8 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 		
 		for(int i = 0; i < verticesUI.size(); i++)
 		{
+			if(i >= app.graph.adjacencyList.size())
+				break;
 			VertexUI vertex = verticesUI.get(i);
 //			vertex.invalidate();
 			
@@ -218,10 +228,7 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 					double dy =  verticesUI.get(to).getCenter().y - vertex.getCenter().y ;
 					double cosPhi = dx/Math.sqrt(dx*dx + dy*dy);
 					double phi = Math.acos(cosPhi);
-					double R = vertex.getSize().getHeight()/2;
-//					System.out.println(phi/2/Math.PI*360);
-//					System.out.println();
-					
+					double R = vertex.getSize().getHeight()/2;					
 					
 					double xrho = R*Math.cos(phi);
 					double yrho = R*Math.sin(phi);
@@ -244,7 +251,17 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 					int x2 =(int) (verticesUI.get(to).getCenter().x  + xrho);
 					int y2 =(int) (verticesUI.get(to).getCenter().y  - yrho);
 					
+				
+					Stroke old = g.getStroke();
+							
+					if(verticesUI.get(to).isHovered() && verticesUI.get(i).isHovered()){
+						int thikness = 2;
+						g.setStroke(new BasicStroke(thikness));
+					}
+
 					drawArrowLine(g,  x1, y1, x2,y2,4,4);
+					
+					g.setStroke(old);
 					
 				}else{
 					g.setColor(Color.green);

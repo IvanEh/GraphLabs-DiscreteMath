@@ -17,9 +17,11 @@ import com.gmail.at.ivanehreshi.interfaces.GraphicManipulator;
 import com.gmail.at.ivanehreshi.interfaces.QueuedUpdatable;
 import com.gmail.at.ivanehreshi.main.GraphicUIApp;
 import com.gmail.at.ivanehreshi.main.panels.GraphViewer;
+import com.gmail.at.ivanehreshi.main.panels.VertexUI;
+import com.gmail.at.ivanehreshi.main.panels.graphinfo.GraphInfo.GraphInfoTab;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
-public class DFSPanel extends JPanel implements QueuedUpdatable{
+public class DFSPanel extends JPanel implements QueuedUpdatable, GraphInfoTab{
 	
 	GraphicUIApp app;
 	DFSVisualization dfsVisualization;
@@ -34,7 +36,10 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 		
 		setLayout(new FlowLayout());
 		
-	//	init();
+		for(VertexUI vui: app.graphViewer.verticesUI ){
+			vui.mainColor = Color.BLUE;
+			vui.hover = false;
+		}
 	
 	}
 	
@@ -54,7 +59,6 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 		removeAll();
 		
 		ArrayList<ArrayList<String>> data;
-		
 		
 		dfs = new GraphAlgotithms.DFSValueComputer(app.graph);
 		ArrayList<String[]> stackFingerPrint = new ArrayList<String[]>();
@@ -76,8 +80,10 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 		if (app.graphViewer.graphicManipulators.contains(dfsVisualization))
 			app.graphViewer.graphicManipulators.remove(dfsVisualization);
 		
+		app.graphViewer.graphicManipulators.clear();
 		dfsVisualization = new DFSVisualization(null, null);
 		app.graphViewer.graphicManipulators.add(dfsVisualization);
+		
 	}
 
 	public class DFSVisualization implements GraphicManipulator{
@@ -91,6 +97,10 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 		public DFSVisualization(GraphAlgotithms.DFSValueComputer dfs, GraphViewer graphViewer){
 			//this.dfs = dfs;
 			//this.graphViewer = graphViewer;
+			for(VertexUI vui: app.graphViewer.verticesUI ){
+				vui.mainColor = Color.BLUE;
+				vui.hover = false;
+			}
 		}
 		
 		@Override
@@ -161,5 +171,22 @@ public class DFSPanel extends JPanel implements QueuedUpdatable{
 			needToUpdate = false;
 		}
 	}
+
+	@Override
+	public void onActivated() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDeactivated() {
+		// TODO Auto-generated method stub
+		app.graphViewer.graphicManipulators.clear();
+		for(VertexUI vui: app.graphViewer.verticesUI ){
+			vui.mainColor = Color.BLUE;
+			vui.hover = false;
+		}
+	}
+	
 	
 }
