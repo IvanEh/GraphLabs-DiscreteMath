@@ -46,13 +46,20 @@ public class InputGraphAction implements ActionListener {
 		 for(int i = 0; i < paramEdgeCount; i++){
 			String parse = JOptionPane.showInputDialog(frame, "¬каж≥ть вершини через проб≥л + e" + i);
 			String[] num = parse.split(" ");
-			if(num.length != 2)
+			if((num.length != 2 && frame.graph.isWeighted) ||
+					(num.length != 3 && !frame.graph.isWeighted))
 				continue;
 			
 			int v1 = Integer.valueOf(num[0])-1;
 			int v2 = Integer.valueOf(num[1])-1;
 			
-			frame.graph.connect(v1, v2);
+			if(num.length == 3){
+				int w = Integer.valueOf(num[2]);
+				frame.graph.connect(v1,  v2, w);
+			}else{
+				frame.graph.connect(v1, v2);
+			}
+			
 		 }
 		 
 		 frame.graphInfo.disabledUpdate = false;

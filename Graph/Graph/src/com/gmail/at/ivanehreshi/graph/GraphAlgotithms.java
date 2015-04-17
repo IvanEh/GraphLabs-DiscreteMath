@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -236,7 +237,8 @@ public class GraphAlgotithms {
 			colors[v] = VertexColors.GREY;
 			System.out.println(v + " ");
 			
-			for(int u: g.adjacencyList.get(v)){
+			for(EdgeTo e: g.adjacencyList.get(v)){
+				int u = e.to;
 				if(adj.get(v).get(u) == 0 || sccArr[u] != level)
 					continue;
 				
@@ -324,7 +326,8 @@ public class GraphAlgotithms {
 				v = stack.lastElement() - deltaUser;
 			
 				boolean first = false;
-				for(int u: g.adjacencyList.get(v)){
+				for(EdgeTo e: g.adjacencyList.get(v)){
+					int u = e.to;
 					if(colors[u] != VertexColors.WHITE)
 						continue;
 					
@@ -396,7 +399,8 @@ public class GraphAlgotithms {
 				int v = Q.peek() - delta;
 				
 				orderedVertices.set(time, v);
-				for(int u: g.adjacencyList.get(v)){
+				for(EdgeTo e: g.adjacencyList.get(v)){
+					int u = e.to;
 					if(bfs[u].color != VertexColors.WHITE)
 						continue;
 					
@@ -476,6 +480,66 @@ public class GraphAlgotithms {
 			merge.add(v);
 		}
 		
+	}
+	
+	public static class  DijkstraPath {
+		public final int INF = Integer.MAX_VALUE - 100;
+		
+		private int source;
+		private int[] dist;
+		private Integer[] pred;
+		private OrientedGraph graph;
+		
+		public DijkstraPath(OrientedGraph graph, int source) throws Exception{
+			if(!graph.isWeighted)
+				throw new Exception();
+			
+			this.source = source;
+			this.graph = graph;
+			dist = new int[graph.verticesCount];
+			pred = new Integer[graph.verticesCount];
+		}
+		
+		public void findAll(){
+			init();
+			ArrayList<Integer> stack = new ArrayList<Integer>();
+			for(int i = 0; i < graph.verticesCount; i++)
+				stack.add(i);
+			
+			while(!stack.isEmpty()){
+				stack.sort(new Comparator<Integer>() {
+					@Override
+					public int compare(Integer v1, Integer v2) {
+						return dist[v2] - dist[v1] ;
+					}
+				});
+				
+				
+				int u = stack.remove(stack.size()-1);
+				for(EdgeTo e: graph.adjacencyList.get(u)){
+					int v = e.to;
+					relax(u, v, graph.w(u, v));
+				}
+			}
+		}
+
+		private void relax(int u, int v, int w) {
+			int newWeight =dist[u] + w; 
+			if(dist[v] > newWeight){
+				dist[v] = newWeight;
+				pred[v] = u;
+			}
+		}
+
+		private void init() {
+			for(int i = 0; i < graph.verticesCount; i++){
+				dist[i] = INF;
+				pred[i] = null;
+			}
+			
+
+			
+		}
 	}
 	
 	

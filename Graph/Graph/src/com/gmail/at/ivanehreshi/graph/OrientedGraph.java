@@ -25,7 +25,13 @@ public class OrientedGraph extends Observable{
 	 * This fields represents the graph in different ways
 	 * all the fields has constant size initialized by the constructor
 	 */
-	public ArrayList<LinkedList<Integer>> adjacencyList ;
+	 
+	/**
+	 * Oriented graph could be weighted and not weighted.This <br>
+	 * variable indicates this feature 
+	 */
+	public boolean isWeighted = false;
+	public ArrayList<LinkedList<EdgeTo>> adjacencyList ;
 	public ArrayList<ArrayList<Integer>> adjacencyMatrix;
 	/**
 	 * I could be deprecated
@@ -38,10 +44,10 @@ public class OrientedGraph extends Observable{
 		this.verticesCount = vertices_count;
 
 		// Adjacency list init
-		adjacencyList = new ArrayList<LinkedList<Integer>>(vertices_count);
+		adjacencyList = new ArrayList<LinkedList<EdgeTo>>(vertices_count);
 		
 		for (int i = 0; i < vertices_count; i++){
-			adjacencyList.add(new LinkedList<Integer>()); 
+			adjacencyList.add(new LinkedList<EdgeTo>()); 
 		}
 
 		// Adjacency matrix init
@@ -72,14 +78,21 @@ public class OrientedGraph extends Observable{
 	}
 
 	public boolean connect(int from, int to){
+		if(isWeighted)
+			return connect(from, to, 0);
+		else
+			return connect(from, to, 1);
+	}
+
+	public boolean connect(int from, int to, int w){
 		if (!vertexExists(from) || !vertexExists(to))
 			return false;
 
-		
-		adjacencyList.get(from).push(to);
+		EdgeTo edge = new EdgeTo(to, w);
+		adjacencyList.get(from).push(edge);
 
 		adjacencyMatrix.get(from).set(to, 
-				adjacencyMatrix.get(from).get(to)+1);
+				adjacencyMatrix.get(from).get(to)+w);
 		
 		if (from == to)
 		{
@@ -104,13 +117,14 @@ public class OrientedGraph extends Observable{
 		event.eventType = EventType.VERTICES_CONNECTED;
 		event.from = from;
 		event.to = to;
+		event.w = w;
 		
 		setChanged();
 		notifyObservers(event);
 		
 		return true;
 	}
-
+	
 	/**
 	 * Simple connected vertices test. Could not work.
 	 * @return true if vertices connected
@@ -119,7 +133,7 @@ public class OrientedGraph extends Observable{
 		if (!vertexExists(from) || !vertexExists(to))
 			return false;
 
-		if(adjacencyMatrix.get(from).get(to) > 0)
+		if(adjacencyMatrix.get(from).get(to) != 0)
 			return true;
 		else
 			return false;
@@ -131,7 +145,7 @@ public class OrientedGraph extends Observable{
 	@Deprecated
 	public boolean safeIsConnected(int from, int to){
 		boolean connected = true;
-		connected = connected && isConnected(from, to);
+		connected = isConnected(from, to);
 		
 		return connected;
 	}
@@ -148,11 +162,11 @@ public class OrientedGraph extends Observable{
 		for (int i = 0; i < adjacencyList.size(); i++)
 		{
 
-			for (Integer x : adjacencyList.get(i)) {
+			for (EdgeTo x : adjacencyList.get(i)) {
 				VertexDegree vd = result.get(i);
 				vd.first++;
 				
-				vd = result.get(x);
+				vd = result.get(x.to);
 				vd.second++;
 			}
 
@@ -310,14 +324,14 @@ public class OrientedGraph extends Observable{
 		
 		dfs_values[v] = 1;
 		
-		for(int to: adjacencyList.get(v)){
-			if(dfs_values[to] == 0){
+		for(EdgeTo e: adjacencyList.get(v)){
+			if(dfs_values[e.to] == 0){
 				
-				from[to] = v;
-				 dfs_cycles(to, dfs_values, from);
+				from[e.to] = v;
+				 dfs_cycles(e.to, dfs_values, from);
 			}else{
-				if(dfs_values[to] == 1){
-					cycle.first = to;
+				if(dfs_values[e.to] == 1){
+					cycle.first = e.to;
 					cycle.second = v;
 					addCycle(cycle, from);
 				}
@@ -339,4 +353,11 @@ public class OrientedGraph extends Observable{
 		
 		notifyObservers(e);
 	}
+
+	public int w(int u, int v) {
+		if(!isWeighted)
+			return 0;
+		return adjacencyMatrix.get(u).get(v);
+	}
+
 }

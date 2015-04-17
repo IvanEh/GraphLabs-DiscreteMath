@@ -8,22 +8,18 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LayoutManager;
-import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Vector;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import com.gmail.at.ivanehreshi.graph.EdgeTo;
 import com.gmail.at.ivanehreshi.graph.GraphEvent;
 import com.gmail.at.ivanehreshi.graph.GraphEvent.EventType;
 import com.gmail.at.ivanehreshi.graph.OrientedGraph;
@@ -218,9 +214,9 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 			if(i >= app.graph.adjacencyList.size())
 				break;
 			VertexUI vertex = verticesUI.get(i);
-//			vertex.invalidate();
 			
-			for(int to: app.graph.adjacencyList.get(i) ){
+			for(EdgeTo e: app.graph.adjacencyList.get(i) ){
+				int to = e.to;
 				if(to != i){		
 					g.setColor(Color.BLACK);
 					

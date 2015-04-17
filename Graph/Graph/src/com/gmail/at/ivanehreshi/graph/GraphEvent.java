@@ -9,6 +9,7 @@ public class GraphEvent {
 	
 	public EventType eventType = EventType.GRAPH_CREATED;
 	public int from = -1, to = -1;
+	public int w = 0;
 	
 	public GraphEvent(){};
 	public GraphEvent(EventType t){
