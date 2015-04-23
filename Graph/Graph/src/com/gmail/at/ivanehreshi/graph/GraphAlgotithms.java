@@ -482,7 +482,7 @@ public class GraphAlgotithms {
 		
 	}
 	
-	public static class  DijkstraPath {
+	public static class  DijkstraPath implements PathFinder{
 		public final int INF = Integer.MAX_VALUE - 100;
 		
 		private int source;
@@ -502,7 +502,9 @@ public class GraphAlgotithms {
 		
 		
 		
-		public void findAll(){
+		public boolean findAll(){
+			if(!graph.isWeighted || (graph.isWeighted && graph.zeroWeightedFlag))
+				return false;
 			init();
 			ArrayList<Integer> stack = new ArrayList<Integer>();
 			for(int i = 0; i < graph.verticesCount; i++)
@@ -525,14 +527,17 @@ public class GraphAlgotithms {
 					relax(u, v, graph.w(u, v));
 				}
 			}
+			
+			return true;
 		}
 
-		private void relax(int u, int v, int w) {
+		public boolean relax(int u, int v, int w) {
 			int newWeight =dist[u] + w; 
 			if(dist[v] > newWeight){
 				dist[v] = newWeight;
 				pred[v] = u;
 			}
+			return true;
 		}
 
 		/**

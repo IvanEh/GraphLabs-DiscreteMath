@@ -25,14 +25,18 @@ public class Dijkstra extends JPanel implements QueuedUpdatable, GraphInfoTab {
 	private final JLabel res = new JLabel("");
 	private final JLabel protocolLabel1 = new JLabel("Вершини: ");
 	private final JLabel protocolLabel2 = new JLabel();
+	private final JLabel algLabel = new JLabel("Алгоритм: ");
 	private boolean neetToUpdate = true;
 	GraphicManipulator manip;
 	
 	private JComboBox<Integer> fromVertLst = new JComboBox<Integer>();
 	private JComboBox<Integer> toVertLst = new JComboBox<Integer>();
+	private JComboBox<String> algorithm = new JComboBox<String>();
 	
 	public Dijkstra(GraphicUIApp app) {
 		this.app = app;
+		algorithm.setModel(new DefaultComboBoxModel<String>(new String[]{"Dijkstra", "Bellman-Ford"}));
+		
 		add(label1);
 		add(label2);
 		add(fromVertLst);
@@ -41,6 +45,8 @@ public class Dijkstra extends JPanel implements QueuedUpdatable, GraphInfoTab {
 		add(res);
 		add(protocolLabel1);
 		add(protocolLabel2);
+		add(algLabel);
+		add(algorithm);
 		init();
 		manageListeners();
 	}

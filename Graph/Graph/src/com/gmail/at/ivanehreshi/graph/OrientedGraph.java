@@ -38,6 +38,8 @@ public class OrientedGraph extends Observable{
 	 */
 	public ArrayList<ArrayList<Integer>> incidenceMatrix 
 			= new ArrayList<ArrayList<Integer>>();
+
+	public boolean zeroWeightedFlag = false;
 	
 	public OrientedGraph(int vertices_count)
 	{
