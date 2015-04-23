@@ -320,4 +320,13 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 		repaint();
 		validate();
 	}
+
+	public void hover(int i, boolean b) {
+		if(verticesUI.size() >= i)
+			return;
+		if(verticesUI.size() < 0)
+			return;
+		
+		verticesUI.get(i).hover = b;
+	}
 }
