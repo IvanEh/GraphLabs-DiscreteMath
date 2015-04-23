@@ -29,6 +29,7 @@ public class GraphInfo extends JTabbedPane implements Observer {
 	private DFSPanel dfsPanel;
 	private BFSPanel bfsPanel;
 	private ConnectedComponents connectedComponents;
+	private Dijkstra dijkstraTab;
 	
 	public GraphInfo(OrientedGraph g, GraphicUIApp app){
 		super();
@@ -61,6 +62,9 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		
 		TopologicalSortTab topologicalSortTab = new TopologicalSortTab(app);
 		addTab("Топологічне сортування", topologicalSortTab);
+		
+		dijkstraTab = new Dijkstra(this.app);
+		addTab("Алг Дейкстри", dijkstraTab);
 		
 		lastActiveTab = 0;
 		

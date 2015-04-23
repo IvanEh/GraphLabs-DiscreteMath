@@ -500,22 +500,26 @@ public class GraphAlgotithms {
 			pred = new Integer[graph.verticesCount];
 		}
 		
+		
+		
 		public void findAll(){
 			init();
 			ArrayList<Integer> stack = new ArrayList<Integer>();
 			for(int i = 0; i < graph.verticesCount; i++)
 				stack.add(i);
 			
+			dist[source]= 0;
+			
 			while(!stack.isEmpty()){
 				stack.sort(new Comparator<Integer>() {
 					@Override
 					public int compare(Integer v1, Integer v2) {
-						return dist[v2] - dist[v1] ;
+						return dist[v1] - dist[v2] ;
 					}
 				});
 				
 				
-				int u = stack.remove(stack.size()-1);
+				int u = stack.remove(0);
 				for(EdgeTo e: graph.adjacencyList.get(u)){
 					int v = e.to;
 					relax(u, v, graph.w(u, v));
@@ -531,14 +535,36 @@ public class GraphAlgotithms {
 			}
 		}
 
+		/**
+		 * get the path from source to <b>to</b> in reversed order
+		 * @param to
+		 * @return 
+		 */
+		public ArrayList<Integer> getPath(int to){
+			if(to < 0)
+				return null;
+			ArrayList<Integer> path = new ArrayList<Integer>();
+			Integer x = to;
+			while(x != null){
+				path.add(x);
+				x = pred[x];
+			}
+			return path;
+		}
+		
 		private void init() {
 			for(int i = 0; i < graph.verticesCount; i++){
 				dist[i] = INF;
 				pred[i] = null;
 			}
+			pred = new Integer[graph.verticesCount];
 			
+		}
 
-			
+
+
+		public int[] getDist() {
+			return dist;
 		}
 	}
 	
