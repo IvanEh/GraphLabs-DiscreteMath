@@ -9,6 +9,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.gmail.at.ivanehreshi.graph.BellmanFord;
+import com.gmail.at.ivanehreshi.graph.PathFinder;
 import com.gmail.at.ivanehreshi.graph.GraphAlgotithms.DijkstraPath;
 import com.gmail.at.ivanehreshi.interfaces.GraphicManipulator;
 import com.gmail.at.ivanehreshi.interfaces.QueuedUpdatable;
@@ -18,7 +20,7 @@ import com.gmail.at.ivanehreshi.main.panels.graphinfo.GraphInfo.GraphInfoTab;
 public class Dijkstra extends JPanel implements QueuedUpdatable, GraphInfoTab {
 
 	private GraphicUIApp app;
-	private DijkstraPath pathFinder = null;
+	private PathFinder pathFinder = null;
 	private final JLabel label1 = new JLabel("Початок");
 	private final JLabel label2 = new JLabel("Кінець");
 	private final JLabel label3 = new JLabel("Довжина");
@@ -70,7 +72,11 @@ public class Dijkstra extends JPanel implements QueuedUpdatable, GraphInfoTab {
 	private void initFinder(){
 		try {
 			int source = fromVertLst.getSelectedIndex();
-			pathFinder = new DijkstraPath(this.app.graph, source);
+			int algChoose = algorithm.getSelectedIndex();
+			if(algChoose == 0)
+				pathFinder = new DijkstraPath(this.app.graph, source);
+			else
+				pathFinder = new BellmanFord(this.app.graph, source);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

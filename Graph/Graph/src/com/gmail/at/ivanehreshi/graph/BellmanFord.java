@@ -10,6 +10,7 @@ public class BellmanFord implements PathFinder{
 	private int[] dist;
 	private Integer[] pred;
 	private OrientedGraph graph;
+	private boolean failed = false; 
 	
 	public BellmanFord(OrientedGraph graph, int source) throws Exception{
 		if(!graph.isWeighted)
@@ -51,7 +52,7 @@ public class BellmanFord implements PathFinder{
 			}
 		}
 		
-		
+		failed = changes;
 		return changes;
 	}
 
@@ -71,7 +72,7 @@ public class BellmanFord implements PathFinder{
 	 * @return 
 	 */
 	public ArrayList<Integer> getPath(int to){
-		if(to < 0)
+		if(to < 0 || failed)
 			return null;
 		ArrayList<Integer> path = new ArrayList<Integer>();
 		Integer x = to;
