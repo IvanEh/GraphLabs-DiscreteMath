@@ -90,6 +90,9 @@ public class OrientedGraph extends Observable{
 		if (!vertexExists(from) || !vertexExists(to))
 			return false;
 
+		if(w < 0)
+			zeroWeightedFlag = true;
+		
 		EdgeTo edge = new EdgeTo(to, w);
 		adjacencyList.get(from).push(edge);
 
