@@ -41,6 +41,12 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 			new ArrayList<GraphicManipulator>();
 		
 	private Timer timer;
+
+	private Color WEIGHT_FONT_COLOR = new Color(10, 30, 190, 128);
+
+	private Color CONECTION_COLOR = new Color(180, 20, 240,128);
+
+	private Color BOLD_CONNECTION_COLOR = new Color(170, 10, 240,255);
 	
 	public  GraphViewer(GraphicUIApp app) {
 		super();
@@ -51,7 +57,7 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 		setOpaque(false);
 		setGraph(app.graph);
 		
-		timer = new Timer(333, new ActionListener() {
+		timer = new Timer(100, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -211,6 +217,7 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 		
 		for(int i = 0; i < verticesUI.size(); i++)
 		{
+			Color oldColor;
 			if(i >= app.graph.adjacencyList.size())
 				break;
 			VertexUI vertex = verticesUI.get(i);
@@ -218,7 +225,7 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 			for(EdgeTo e: app.graph.adjacencyList.get(i) ){
 				int to = e.to;
 				if(to != i){		
-					g.setColor(Color.BLACK);
+					g.setColor(CONECTION_COLOR );
 					
 					double dx = verticesUI.get(to).getCenter().x - vertex.getCenter().x;
 					double dy =  verticesUI.get(to).getCenter().y - vertex.getCenter().y ;
@@ -253,8 +260,25 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 					if(verticesUI.get(to).isHovered() && verticesUI.get(i).isHovered()){
 						int thikness = 2;
 						g.setStroke(new BasicStroke(thikness));
+						g.setColor(BOLD_CONNECTION_COLOR = new Color(200, 130, 255,255));
 					}
 
+					oldColor = g.getColor();
+					if(app.graph.isWeighted){
+						int cx, cy;
+						cx = (x1 + x2)/2;
+						cy = (y1 + y2)/2;
+
+						g.setFont(g.getFont().deriveFont(10f));
+						g.setColor(WEIGHT_FONT_COLOR );
+						
+						int w = app.graph.w(i, to);
+						
+						g.drawString(String.valueOf(w), cx, cy);
+						
+					}
+					g.setColor(oldColor);
+					
 					drawArrowLine(g,  x1, y1, x2,y2,4,4);
 					
 					g.setStroke(old);
@@ -322,7 +346,7 @@ public class GraphViewer extends JPanel implements LayoutManager, Observer{
 	}
 
 	public void hover(int i, boolean b) {
-		if(verticesUI.size() >= i)
+		if(i >= verticesUI.size())
 			return;
 		if(verticesUI.size() < 0)
 			return;
