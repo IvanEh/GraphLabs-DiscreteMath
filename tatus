@@ -1,0 +1,162 @@
+[33mcommit f63e516db635b86fe29c6a3a90872847dacaa7f1[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Fri Apr 24 01:16:06 2015 +0300
+
+    Add Bellman-Ford full negative cycle support
+
+[33mcommit 9b8c35b7fddf1051e6289a9d3b59dfc118851be9[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Fri Apr 24 01:02:40 2015 +0300
+
+    Add zero weight flag field
+
+[33mcommit aaa368f6518ae3056ec326e6e23cd74a5ac3a8e2[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Fri Apr 24 01:01:36 2015 +0300
+
+    Add Bellman-Ford alg
+
+[33mcommit 99f938c18243fedd1915985ecefe2047dfe3c419[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Fri Apr 24 00:37:28 2015 +0300
+
+    Add Dijkstra algorigthm and Dijkstra algorithm visualization
+
+[33mcommit d07cad10267f482187dbcfa0b8e89b39c0ebef0c[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Fri Apr 24 00:32:22 2015 +0300
+
+    Add smother repaint
+
+[33mcommit 20782c4f2fc3e4c12dc2b9d11d61a14392a8f1da[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Thu Apr 23 22:29:34 2015 +0300
+
+    Add hover(int, bool) function
+
+[33mcommit f52ce50bcb5c5817f04e3b7938b37191e1e8ec2e[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Fri Apr 17 14:43:02 2015 +0300
+
+    Add weighted graph support in the OrientedGraph class
+
+[33mcommit 01c9ffe2b5324bd6fd365a90bad35c240a648592[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Tue Apr 14 10:30:46 2015 +0300
+
+    Implement topological sort and strongly connected components finder
+
+[33mcommit eb76bc41afea60c5db37817b4a86df98fd3fd72c[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Fri Mar 27 12:27:29 2015 +0200
+
+    Add update button for search tabs
+
+[33mcommit 8ebe2c9a50b6e448b244ccc59092fa9d3a79a774[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Fri Mar 27 11:29:54 2015 +0200
+
+    remove some extra updates
+
+[33mcommit 7051084e9901c0eb72ecf438ac4ae1aa827bf739[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Thu Mar 26 18:24:16 2015 +0200
+
+    add bfs visualisation
+
+[33mcommit cd02140228c7840ab307b1cfa74e329eabda1477[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Thu Mar 26 18:12:10 2015 +0200
+
+    implement bfs algorithm
+
+[33mcommit 2d79929feac3c55d0beb49311fa871ac83846897[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Thu Mar 26 11:38:05 2015 +0200
+
+    Add promt to ask starting vertex for dfs
+
+[33mcommit 5051d88ed40584baffeb360d67ec11b3468f5ba1[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Thu Mar 26 11:11:36 2015 +0200
+
+    add more info to the dfs protocol
+
+[33mcommit 298cadb998b85fb0bb66989fcb947f6b9ec815ea[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sun Mar 22 14:41:31 2015 +0200
+
+    redesign how the dfs should work
+
+[33mcommit 691f7a4ccb1f50b3da62f5b26408889690873345[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sun Mar 22 13:18:25 2015 +0200
+
+    finish with dfs visualization
+
+[33mcommit dbd4dd169df55eba971338546bddd9e14f566da6[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sun Mar 22 13:04:47 2015 +0200
+
+    add animation to demonstrate dfs
+    add user friendly stack output
+
+[33mcommit 1e229d4299d1ae6f10e79dcb0e853e1d8e7ea869[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sun Mar 22 10:58:29 2015 +0200
+
+    display stack on the screen
+
+[33mcommit 4d2b2557986edc20db5eb1b2ab7cfb41d77af701[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sun Mar 22 01:09:30 2015 +0200
+
+    create a class which compute the dfs values and prints the stack step by step
+
+[33mcommit d69c5bda69b3d4b9b7a9c7c1b412373b890d5fec[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sat Mar 21 23:16:05 2015 +0200
+
+    add an empty line
+
+[33mcommit 7a030e5dfa58a26f65a858c80c6c6143a9b4825b[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sat Mar 21 23:13:46 2015 +0200
+
+    add cycle to call all the graphic objects
+
+[33mcommit d5e9a4e13c60021b233fecfc466c388f16fdd91d[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sat Mar 21 23:08:54 2015 +0200
+
+    Change vertices color style
+
+[33mcommit ebe46c9a9ce37a47e3e1008ad599c3865edf310f[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sat Mar 21 23:04:51 2015 +0200
+
+    Add basic graphic API
+
+[33mcommit 7e6b2e117980762da0c48ed13fec5319e5272edd[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sat Mar 21 22:07:25 2015 +0200
+
+    make some minor refactoring
+
+[33mcommit e1a821e8fbaa6dbcda44326c8c1389a185bf2db3[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sat Mar 21 21:51:46 2015 +0200
+
+    add perfomance boost(updating only if needed) to all of the panels of GraphInfo
+
+[33mcommit 432752c69b375ca38edd01f898b72455c367a7c0[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sat Mar 21 21:42:40 2015 +0200
+
+    add proper and  efficient update to distanceMatrix
+
+[33mcommit 6d701e96b805d52b009d5ec781801fe1de265988[m
+Author: IvanEh <IvanEhreshi@gmail.com>
+Date:   Sat Mar 21 21:29:57 2015 +0200
+
+    init repository with old files

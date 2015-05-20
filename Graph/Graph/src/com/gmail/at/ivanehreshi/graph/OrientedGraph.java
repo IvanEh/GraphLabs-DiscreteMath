@@ -364,5 +364,9 @@ public class OrientedGraph extends Observable{
 			return 0;
 		return adjacencyMatrix.get(u).get(v);
 	}
+	
+	public void add(int v){
+		
+	}
 
 }

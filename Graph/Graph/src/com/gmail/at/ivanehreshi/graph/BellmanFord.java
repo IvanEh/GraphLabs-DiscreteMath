@@ -3,18 +3,14 @@ package com.gmail.at.ivanehreshi.graph;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class BellmanFord implements PathFinder{
-	public final int INF = Integer.MAX_VALUE - 100;
-	
+public class BellmanFord implements PathFinder{	
 	private int source;
 	private int[] dist;
 	private Integer[] pred;
 	private OrientedGraph graph;
 	private boolean failed = false; 
 	
-	public BellmanFord(OrientedGraph graph, int source) throws Exception{
-		if(!graph.isWeighted)
-			throw new Exception();
+	public BellmanFord(OrientedGraph graph, int source){
 		
 		this.source = source;
 		this.graph = graph;
@@ -30,14 +26,14 @@ public class BellmanFord implements PathFinder{
 		dist[source]= 0;
 		
 		boolean changes = true;
-		for(int i = 0; i < graph.verticesCount-1 && changes; i++){
-			changes = false;
+		int i;
+		for(i = 1; i <= graph.verticesCount-1; i++){
 			for(int j = 0; j < graph.verticesCount; j++){
 				int u = j;
 				for(EdgeTo edge: graph.adjacencyList.get(j)){
 					int v = edge.to;
 					int w = edge.w;
-					changes |= relax(u, v, w);
+					relax(u, v, w);
 				}
 			}
 		}
@@ -48,7 +44,7 @@ public class BellmanFord implements PathFinder{
 			for(EdgeTo edge: graph.adjacencyList.get(j)){
 				int v = edge.to;
 				int w = edge.w;
-				changes |= relax(u, v, w);
+				changes = changes || relax(u, v, w);
 			}
 		}
 		

@@ -29,7 +29,8 @@ public class GraphInfo extends JTabbedPane implements Observer {
 	private DFSPanel dfsPanel;
 	private BFSPanel bfsPanel;
 	private ConnectedComponents connectedComponents;
-	private Dijkstra dijkstraTab;
+	private PathFinderTab pathFinderTab;
+	private AllPathsTab allPathsTab;
 	
 	public GraphInfo(OrientedGraph g, GraphicUIApp app){
 		super();
@@ -41,7 +42,7 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		distanceMatrixPanel = new DistanceMatrixPanel(app, distanceModel);;
 		add("Матриця відстаней",distanceMatrixPanel);
 		
-//		addTab("Матриця досяжності", new ReachibilityMatrixPanel(app, distanceModel));
+		addTab("Матриця досяжності", new ReachibilityMatrixPanel(app, distanceModel));
 		addTab("Матриця суміжності", new AdjacencyMatrixTab(app));
 		
 		cycleTab = new  CycleTab(app);
@@ -63,8 +64,11 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		TopologicalSortTab topologicalSortTab = new TopologicalSortTab(app);
 		addTab("Топологічне сортування", topologicalSortTab);
 		
-		dijkstraTab = new Dijkstra(this.app);
-		addTab("Алг Дейкстри", dijkstraTab);
+		pathFinderTab = new PathFinderTab(this.app);
+		addTab("Найкоротший шлях", pathFinderTab);
+		
+		allPathsTab = new AllPathsTab(this.app);
+		addTab("Всі найкоротші шляхи", allPathsTab);
 		
 		lastActiveTab = 0;
 		

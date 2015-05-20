@@ -482,9 +482,7 @@ public class GraphAlgotithms {
 		
 	}
 	
-	public static class  DijkstraPath implements PathFinder{
-		public final int INF = Integer.MAX_VALUE - 100;
-		
+	public static class  DijkstraPath implements PathFinder{		
 		private int source;
 		private int[] dist;
 		private Integer[] pred;
