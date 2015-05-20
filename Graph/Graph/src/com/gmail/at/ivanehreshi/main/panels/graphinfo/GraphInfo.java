@@ -31,6 +31,8 @@ public class GraphInfo extends JTabbedPane implements Observer {
 	private ConnectedComponents connectedComponents;
 	private PathFinderTab pathFinderTab;
 	private AllPathsTab allPathsTab;
+	private Lab6Tab lab6Tab;
+	private TSPTab tspTab;
 	
 	public GraphInfo(OrientedGraph g, GraphicUIApp app){
 		super();
@@ -69,6 +71,12 @@ public class GraphInfo extends JTabbedPane implements Observer {
 		
 		allPathsTab = new AllPathsTab(this.app);
 		addTab("Всі найкоротші шляхи", allPathsTab);
+		
+		lab6Tab = new Lab6Tab(app);
+		addTab("Лаб 6", lab6Tab);
+		
+		tspTab = new TSPTab(this.app);
+		addTab("Задача комівояжера", tspTab);
 		
 		lastActiveTab = 0;
 		

@@ -22,6 +22,20 @@ public class OrientedGraph extends Observable{
 	public int verticesCount = 0;
 	
 	/**
+	 * Actual count of vertices which are connected with other. In other words total number of vertices<br>
+	 * without isolated vertices counted
+	 */
+	public int usedVertices(){
+		int isolated = 0;
+		for(int i = 0; i < verticesCount; i++){
+			if(isIsolated(i))
+				isolated++;
+		}
+		
+		return verticesCount - isolated;
+	}
+	
+	/**
 	 * This fields represents the graph in different ways
 	 * all the fields has constant size initialized by the constructor
 	 */

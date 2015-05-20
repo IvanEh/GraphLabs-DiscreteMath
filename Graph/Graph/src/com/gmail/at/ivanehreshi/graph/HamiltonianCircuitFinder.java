@@ -4,53 +4,29 @@ import java.util.LinkedList;
 
 import com.gmail.at.ivanehreshi.utility.Ref;
 
-public class HamiltonianPathFinder {
+public class HamiltonianCircuitFinder extends HamiltonianPathFinder {
 	
 	enum HamiltonianPathType{CYCLE, PATH, NEXIST};
 	
-	OrientedGraph graph;
 	HamiltonianPathType state;
-	boolean isComputed = false;
-	LinkedList<Integer> HamiltonianPathCahce = null;
-	
-	public HamiltonianPathFinder(OrientedGraph graph){
-		this.graph = graph;
-		state = HamiltonianPathType.NEXIST;
+
+	public HamiltonianCircuitFinder(OrientedGraph graph){
+		super(graph);
 	}
 	
-	public boolean isPath(){
+	public boolean isCycle(){
 		if(!isComputed)
 			throw new RuntimeException();
 		
-		return state == HamiltonianPathType.PATH;
+		
+		return state == HamiltonianPathType.CYCLE;
 	}
-	
-//	public boolean isCycle(){
-//		if(!isComputed)
-//			throw new RuntimeException();
-//		
-//		
-//		return state == HamiltonianPathType.CYCLE;
-//	}
 
 	
-	public boolean existPath(){
-		if(!isComputed)
-			throw new RuntimeException();
-		
-		return state != HamiltonianPathType.NEXIST;
-	}
-	
-//	else{
-//		if(curr.size() == len - 1
-//				&& u.to == curr.getFirst()){
-//			curr.add(u.to);
-//			track(curr, result, len);
-//		}
-//	}
+
 	
 	private boolean track(LinkedList<Integer> curr, Ref<LinkedList<Integer>> result, int len){
-		if(curr.size() == len){
+		if(curr.size() == len+1){
 			result.field = curr;
 			return true;
 		}
@@ -62,6 +38,14 @@ public class HamiltonianPathFinder {
 				boolean solution = track(next, result, len);
 				if(solution){
 					return true;
+				}
+			}else{
+				if(curr.size() == len
+						&& u.to == curr.getFirst()){
+					curr.add(u.to);
+					if(track(curr, result, len)){
+						return true;
+					}
 				}
 			}
 		}
@@ -90,8 +74,10 @@ public class HamiltonianPathFinder {
 		if(succ == false){
 			state = HamiltonianPathType.NEXIST;
 		}else{
-			state = HamiltonianPathType.PATH;
+			state = HamiltonianPathType.CYCLE;
 		}
+		
+		
 		
 		return succ;
 		
