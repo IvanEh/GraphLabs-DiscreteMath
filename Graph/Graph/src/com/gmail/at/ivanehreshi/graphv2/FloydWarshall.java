@@ -9,7 +9,7 @@ import com.gmail.at.ivanehreshi.graph.OrientedGraph;
 
 public class FloydWarshall {
     private boolean hasNegativeCycle;  // is there a negative cycle?
-    private int[][] distTo;  // distTo[v][w] = length of shortest v->w path
+    private double[][] distTo;  // distTo[v][w] = length of shortest v->w path
     Vector<Integer> path = new Vector<>();
 	private OrientedGraph graph;   
     

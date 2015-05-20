@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 public class BellmanFord implements PathFinder{	
 	private int source;
-	private int[] dist;
+	private double[] dist;
 	private Integer[] pred;
 	private OrientedGraph graph;
 	private boolean failed = false; 
@@ -14,7 +14,7 @@ public class BellmanFord implements PathFinder{
 		
 		this.source = source;
 		this.graph = graph;
-		dist = new int[graph.verticesCount];
+		dist = new double[graph.verticesCount];
 		pred = new Integer[graph.verticesCount];
 	}
 	
@@ -32,7 +32,7 @@ public class BellmanFord implements PathFinder{
 				int u = j;
 				for(EdgeTo edge: graph.adjacencyList.get(j)){
 					int v = edge.to;
-					int w = edge.w;
+					double w = edge.w;
 					relax(u, v, w);
 				}
 			}
@@ -43,7 +43,7 @@ public class BellmanFord implements PathFinder{
 			int u = j;
 			for(EdgeTo edge: graph.adjacencyList.get(j)){
 				int v = edge.to;
-				int w = edge.w;
+				double w = edge.w;
 				changes = changes || relax(u, v, w);
 			}
 		}
@@ -52,8 +52,8 @@ public class BellmanFord implements PathFinder{
 		return changes;
 	}
 
-	public boolean relax(int u, int v, int w) {
-		int newWeight =dist[u] + w; 
+	public boolean relax(int u, int v, double w) {
+		double newWeight =dist[u] + w; 
 		if(dist[v] > newWeight){
 			dist[v] = newWeight;
 			pred[v] = u;
@@ -90,7 +90,7 @@ public class BellmanFord implements PathFinder{
 
 
 
-	public int[] getDist() {
+	public double[] getDist() {
 		return dist;
 	}
 }

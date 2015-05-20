@@ -484,7 +484,7 @@ public class GraphAlgotithms {
 	
 	public static class  DijkstraPath implements PathFinder{		
 		private int source;
-		private int[] dist;
+		private double[] dist;
 		private Integer[] pred;
 		private OrientedGraph graph;
 		
@@ -494,7 +494,7 @@ public class GraphAlgotithms {
 			
 			this.source = source;
 			this.graph = graph;
-			dist = new int[graph.verticesCount];
+			dist = new double[graph.verticesCount];
 			pred = new Integer[graph.verticesCount];
 		}
 		
@@ -514,7 +514,7 @@ public class GraphAlgotithms {
 				stack.sort(new Comparator<Integer>() {
 					@Override
 					public int compare(Integer v1, Integer v2) {
-						return dist[v1] - dist[v2] ;
+						return (int)(dist[v1] - dist[v2] );
 					}
 				});
 				
@@ -529,8 +529,8 @@ public class GraphAlgotithms {
 			return true;
 		}
 
-		public boolean relax(int u, int v, int w) {
-			int newWeight =dist[u] + w; 
+		public boolean relax(int u, int v, double w) {
+			double newWeight =dist[u] + w; 
 			if(dist[v] > newWeight){
 				dist[v] = newWeight;
 				pred[v] = u;
@@ -566,7 +566,7 @@ public class GraphAlgotithms {
 
 
 
-		public int[] getDist() {
+		public double[] getDist() {
 			return dist;
 		}
 	}

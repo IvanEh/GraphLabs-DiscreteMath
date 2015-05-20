@@ -155,7 +155,7 @@ public class PathFinderTab extends JPanel implements QueuedUpdatable, GraphInfoT
 		
 		boolean fail = pathFinder.findAll();
 		int to =(int) toVertLst.getSelectedItem()-1;
-		int res = pathFinder.getDist()[to];
+		double res = pathFinder.getDist()[to];
 		String resStr; 
 		if(res == PathFinder.INF)
 			resStr = "∞";

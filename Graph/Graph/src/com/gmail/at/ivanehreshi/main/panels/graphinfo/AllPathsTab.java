@@ -210,7 +210,7 @@ public class AllPathsTab extends JPanel implements QueuedUpdatable, GraphInfoTab
 			}
 			
 			
-			int value = finder.getDist()[columnIndex-1];
+			double value = finder.getDist()[columnIndex-1];
 			if(value >=( finder.INF-100))
 				return "∞";
 			

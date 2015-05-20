@@ -10,7 +10,7 @@ import com.gmail.at.ivanehreshi.graph.GraphAlgotithms.DijkstraPath;
 
 public class Johnson {
 	 private boolean hasNegativeCycle;  // is there a negative cycle?
-	    private int[][] distTo;  // distTo[v][w] = length of shortest v->w path
+	    private double[][] distTo;  // distTo[v][w] = length of shortest v->w path
 	    Vector<Integer> path = new Vector<>();
 		private OrientedGraph graph;   
 	    
@@ -28,7 +28,7 @@ public class Johnson {
 	       BellmanFord finder = new BellmanFord(graph, graph.verticesCount-1);
 	       hasNegativeCycle = finder.findAll();
 	       	
-	       int[] h = new int[graph.verticesCount];
+	       double[] h = new double[graph.verticesCount];
 	       
 	       for(int i = 0; i < graph.verticesCount; i++){
 	    	   h[i] = finder.getDist()[i];
