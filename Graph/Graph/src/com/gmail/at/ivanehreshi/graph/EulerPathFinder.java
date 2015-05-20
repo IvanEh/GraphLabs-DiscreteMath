@@ -41,7 +41,7 @@ public class EulerPathFinder {
 		if(!isComputed)
 			throw new RuntimeException();
 		
-		return state == EulerPathType.NEXIST;
+		return state != EulerPathType.NEXIST;
 	}
 	
 

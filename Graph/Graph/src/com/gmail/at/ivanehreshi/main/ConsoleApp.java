@@ -5,13 +5,14 @@ import java.util.Scanner;
 import com.gmail.at.ivanehreshi.graph.EulerPathFinder;
 import com.gmail.at.ivanehreshi.graph.GraphAlgotithms;
 import com.gmail.at.ivanehreshi.graph.GraphConsoleTool;
+import com.gmail.at.ivanehreshi.graph.HamiltonianPathFinder;
 import com.gmail.at.ivanehreshi.graph.OrientedGraph;
 
 public class ConsoleApp {
 	
 	
 	public static void main(String[] arg){
-		OrientedGraph graph = new OrientedGraph(9);
+		OrientedGraph graph = new OrientedGraph(7);
 		int v, u;
 		Scanner sc = new Scanner(System.in);
 		while(sc.hasNextInt()){
@@ -32,7 +33,8 @@ public class ConsoleApp {
 		
 		finder.compute();
 		
-
+		HamiltonianPathFinder finder3 = new HamiltonianPathFinder(graph);
+		finder3.compute();
 		
 		EulerPathFinder finder2 = new EulerPathFinder(graph);
 		finder2.compute();
