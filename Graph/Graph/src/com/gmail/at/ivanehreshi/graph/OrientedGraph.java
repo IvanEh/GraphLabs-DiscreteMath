@@ -64,6 +64,17 @@ public class OrientedGraph extends Observable{
 		notifyObservers(new GraphEvent().setEventType(GraphEvent.EventType.GRAPH_CREATED));
 	}
 	
+	public OrientedGraph(OrientedGraph g){
+		this.verticesCount = g.verticesCount;
+		
+		adjacencyList = new ArrayList<LinkedList<EdgeTo>>(g.adjacencyList);
+
+		adjacencyMatrix = new ArrayList<ArrayList<Integer>>(g.adjacencyMatrix);
+		
+		setChanged();
+		notifyObservers(new GraphEvent().setEventType(GraphEvent.EventType.GRAPH_CREATED));
+	}
+	
 //    @Override
 //    protected synchronized void clearChanged() {
 //        
@@ -195,6 +206,25 @@ public class OrientedGraph extends Observable{
 		}
 
 		return true;
+	}
+	
+	public int outDegree(int v){
+		int degree = 0;
+
+		degree = adjacencyList.get(v).size();
+		
+		return degree;
+	}
+	
+	public int inDegree(int v){
+		int degree = 0;
+		for (int i = 0; i < adjacencyMatrix.size(); i++)
+		{
+			if(adjacencyMatrix.get(i).get(v) != 0)
+				degree++;
+		}
+		
+		return degree;
 	}
 
 	public final boolean isHanging(int vertex) 

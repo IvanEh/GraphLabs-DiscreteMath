@@ -2,10 +2,10 @@ package com.gmail.at.ivanehreshi.main;
 
 import java.util.Scanner;
 
+import com.gmail.at.ivanehreshi.graph.EulerPathFinder;
 import com.gmail.at.ivanehreshi.graph.GraphAlgotithms;
 import com.gmail.at.ivanehreshi.graph.GraphConsoleTool;
 import com.gmail.at.ivanehreshi.graph.OrientedGraph;
-import com.gmail.at.ivanehreshi.graph.GraphAlgotithms.DFSValue;
 
 public class ConsoleApp {
 	
@@ -31,6 +31,11 @@ public class ConsoleApp {
 				new GraphAlgotithms.StronglyConnectedComponentsFinder(graph);
 		
 		finder.compute();
+		
+
+		
+		EulerPathFinder finder2 = new EulerPathFinder(graph);
+		finder2.compute();
 	}
 	
 //	0 1
