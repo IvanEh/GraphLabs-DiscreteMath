@@ -2,8 +2,9 @@ package com.gmail.at.ivanehreshi.main.panels.graphinfo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javafx.stage.FileChooser;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -11,10 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+import com.gmail.at.ivanehreshi.graph.EuclideanTSPSolver;
 import com.gmail.at.ivanehreshi.interfaces.QueuedUpdatable;
 import com.gmail.at.ivanehreshi.main.GraphicUIApp;
 import com.gmail.at.ivanehreshi.main.panels.graphinfo.GraphInfo.GraphInfoTab;
-import com.sun.org.apache.bcel.internal.generic.F2D;
+import com.gmail.at.ivanehreshi.utility.PointD2D;
 
 /**
  * @author Ivan
@@ -60,11 +62,11 @@ public class TSPTab extends JPanel implements QueuedUpdatable, GraphInfoTab{
 		add(path);
 		
 		layout.putConstraint(SpringLayout.WEST, costTooltip, 0, SpringLayout.WEST, pathTooltip);
-		layout.putConstraint(SpringLayout.NORTH, costTooltip, 10, SpringLayout.SOUTH, pathTooltip);
+		layout.putConstraint(SpringLayout.NORTH, costTooltip, 10, SpringLayout.SOUTH, path);
 		add(costTooltip);
 		
 		layout.putConstraint(SpringLayout.WEST, cost, 0, SpringLayout.WEST, path);
-		layout.putConstraint(SpringLayout.NORTH, cost, 10, SpringLayout.SOUTH, pathTooltip);
+		layout.putConstraint(SpringLayout.NORTH, cost, 0, SpringLayout.NORTH, costTooltip);
 		add(cost);
 	}
 
@@ -89,7 +91,6 @@ public class TSPTab extends JPanel implements QueuedUpdatable, GraphInfoTab{
 	@Override
 	public void updateIfNeeded() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	
@@ -100,9 +101,47 @@ public class TSPTab extends JPanel implements QueuedUpdatable, GraphInfoTab{
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			int val = fileChooser.showOpenDialog(app);
+			ArrayList<PointD2D> points = new ArrayList<>();
 			if(val == JFileChooser.APPROVE_OPTION){
 				filePath.setText(fileChooser.getSelectedFile().getPath());
+				try {
+					Scanner sc = new Scanner(fileChooser.getSelectedFile());
+					for(int i = 0; sc.hasNext(); i++){
+						double x = sc.nextDouble();
+						double y = sc.nextDouble();
+						PointD2D p = new PointD2D(x, y);
+						points.add(p);
+						
+					}
+					EuclideanTSPSolver solver = new EuclideanTSPSolver(points);
+					solver.compute();
+					StringBuilder s = new StringBuilder("<html><body>");
+					for(int i = 0; i < solver.getPath().size(); i++){
+						s.append(i + 1);
+						s.append("\t");
+						double x = points.get(solver.getPath().get(i)).x;
+						double y = points.get(solver.getPath().get(i)).y;
+						s.append("P");
+						s.append(solver.getPath().get(i) + 1);
+						s.append(" (");
+						s.append(x);
+						s.append(";");
+						s.append(y);
+						s.append(" )");
+						s.append("<br>");
+					}
+					s.append("</body></html>");
+					
+					path.setText(s.toString());
+					cost.setText(String.valueOf(solver.getDist()));
+					
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 			}
+			
 		}
 		
 	}

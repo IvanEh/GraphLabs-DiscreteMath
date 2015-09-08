@@ -1,5 +1,6 @@
 package com.gmail.at.ivanehreshi.graph;
 
+import java.awt.Component;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Random;
@@ -49,6 +50,7 @@ public class EulerPathFinder {
 		if(isComputed)
 			return existPath();
 
+		isComputed = true;
 		int first = -1;
 		int last = -1;
 		int evenDegreeCount = 0;
@@ -63,12 +65,12 @@ public class EulerPathFinder {
 			if(out == in + 1){
 				first = i;
 			}
-			if(in == out){
+			if(in == out && in != 0){
 				evenDegreeCount++;
 			}
 		}
 		
-		boolean pathCond = evenDegreeCount == graph.verticesCount - 2 
+		boolean pathCond = evenDegreeCount == graph.usedVertices() - 2 
 				&& first != -1 && last != -1;
 		boolean cycleCond = evenDegreeCount == graph.verticesCount;
 		
@@ -99,5 +101,10 @@ public class EulerPathFinder {
 		
 		isComputed = true;
 		return existPath();
+	}
+
+	public LinkedList<Integer> getPath() {
+		// TODO Auto-generated method stub
+		return  eulerPathCache;
 	}
 }

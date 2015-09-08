@@ -6,9 +6,9 @@ import com.gmail.at.ivanehreshi.utility.Ref;
 
 public class HamiltonianCircuitFinder extends HamiltonianPathFinder {
 	
-	enum HamiltonianPathType{CYCLE, PATH, NEXIST};
+	//enum HamiltonianPathType{CYCLE, PATH, NEXIST};
 	
-	HamiltonianPathType state;
+//	HamiltonianPathType state;
 
 	public HamiltonianCircuitFinder(OrientedGraph graph){
 		super(graph);
@@ -19,7 +19,8 @@ public class HamiltonianCircuitFinder extends HamiltonianPathFinder {
 			throw new RuntimeException();
 		
 		
-		return state == HamiltonianPathType.CYCLE;
+		return !HamiltonianPathCahce.isEmpty();
+//		return state == HamiltonianPathType.CYCLE;
 	}
 
 	
@@ -71,6 +72,7 @@ public class HamiltonianCircuitFinder extends HamiltonianPathFinder {
 		}
 		isComputed = true;
 		HamiltonianPathCahce = resultRef.field;
+		
 		if(succ == false){
 			state = HamiltonianPathType.NEXIST;
 		}else{

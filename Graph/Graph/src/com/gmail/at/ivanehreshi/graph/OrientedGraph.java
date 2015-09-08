@@ -81,7 +81,14 @@ public class OrientedGraph extends Observable{
 	public OrientedGraph(OrientedGraph g){
 		this.verticesCount = g.verticesCount;
 		
-		adjacencyList = new ArrayList<LinkedList<EdgeTo>>(g.adjacencyList);
+		adjacencyList = new ArrayList<LinkedList<EdgeTo>>(g.adjacencyList.size());
+		for(int i = 0; i < g.adjacencyList.size(); i++){
+			adjacencyList.add(new LinkedList<EdgeTo>());
+			for(EdgeTo e: g.adjacencyList.get(i)){
+				EdgeTo newEdge = new EdgeTo(e.to, e.w);
+				adjacencyList.get(i).add(newEdge);
+			}
+		}
 
 		adjacencyMatrix = new ArrayList<ArrayList<Integer>>(g.adjacencyMatrix);
 		

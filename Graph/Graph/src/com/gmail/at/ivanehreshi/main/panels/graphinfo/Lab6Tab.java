@@ -13,9 +13,9 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
+import com.gmail.at.ivanehreshi.graph.EulerPathFinder;
 import com.gmail.at.ivanehreshi.graph.HamiltonianCircuitFinder;
 import com.gmail.at.ivanehreshi.graph.HamiltonianPathFinder;
-import com.gmail.at.ivanehreshi.graph.OrientedGraph;
 import com.gmail.at.ivanehreshi.interfaces.QueuedUpdatable;
 import com.gmail.at.ivanehreshi.main.GraphicUIApp;
 import com.gmail.at.ivanehreshi.main.panels.graphinfo.GraphInfo.GraphInfoTab;
@@ -56,9 +56,9 @@ public class Lab6Tab extends JPanel implements QueuedUpdatable, GraphInfoTab{
 	private void createGUI() {
 		group = new ButtonGroup();
 		
-		hamiltPathRadio = new JRadioButton("Гамільтонів маршут");
+		hamiltPathRadio = new JRadioButton("Гамільтонів шлях");
 		hamiltCycleRadio = new JRadioButton("Гамільтонів цикл");
-		eulerRadio  =new JRadioButton("Ейлерів цикл(маршут)");
+		eulerRadio  =new JRadioButton("Ейлерів цикл(шлях)");
 		group.add(hamiltPathRadio);
 		group.add(hamiltCycleRadio);
 		group.add(eulerRadio);
@@ -145,15 +145,15 @@ public class Lab6Tab extends JPanel implements QueuedUpdatable, GraphInfoTab{
 		finder.compute();
 		StringBuilder mess = new StringBuilder();
 		if(finder.existPath()){
-			mess.append("Гамільтонів ");
-			if(finder.isPath()){
-				mess.append("маршут");
+			mess.append("Гамільтонів шлях: ");
+			mess.append("< ");
+			for(int i = 0; i < finder.getPath().size(); i++){
+				mess.append(finder.getPath().get(i) + 1);
+				mess.append(" ");
 			}
-			mess.append(": ");
-			String path = finder.getPath().toString().replace('[', '<').replace(']', '>');
-			mess.append(path);
+			mess.append(">");
 		}else{
-			mess = new StringBuilder("Не існує Гамільтонового маршуту");
+			mess = new StringBuilder("Не існує Гамільтонового шляху");
 		}
 		result.setText(mess.toString());
 	}
@@ -163,13 +163,14 @@ public class Lab6Tab extends JPanel implements QueuedUpdatable, GraphInfoTab{
 		finder.compute();
 		StringBuilder mess = new StringBuilder();
 		if(finder.existPath()){
-			mess.append("Гамільтонів ");
-			if(finder.isCycle()){
-				mess.append("цикл");
+			mess.append("Гамільтонів цикл: ");
+
+			mess.append("< ");
+			for(int i = 0; i < finder.getPath().size(); i++){
+				mess.append(finder.getPath().get(i) + 1);
+				mess.append(" ");
 			}
-			mess.append(": ");
-			String path = finder.getPath().toString().replace('[', '<').replace(']', '>');
-			mess.append(path);
+			mess.append(">");
 		}else{
 			mess = new StringBuilder("Не існує гамільтонового циклу");
 		}
@@ -178,8 +179,27 @@ public class Lab6Tab extends JPanel implements QueuedUpdatable, GraphInfoTab{
 	}
 
 	public void eulerCompute() {
-		// TODO Auto-generated method stub
-		
+		EulerPathFinder finder = new EulerPathFinder(app.graph);
+		finder.compute();
+		StringBuilder mess = new StringBuilder();
+		if(finder.existPath()){
+			mess.append("Ейлерів ");
+			if(finder.isCycle())
+				mess.append(" цикл");
+			else
+				mess.append(" шлях");
+			
+			mess.append(": ");
+			mess.append("< ");
+			for(int i = 0; i < finder.getPath().size(); i++){
+				mess.append(finder.getPath().get(i) + 1);
+				mess.append(" ");
+			}
+			mess.append(">");
+		}else{
+			mess = new StringBuilder("Не існує ейлерового циклу");
+		}
+		result.setText(mess.toString());
 	}
 	
 }
